@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #F9F6F0;
+  --color-sand: #DDD6C1;
+  --color-linen: #EAE5D8;
+  --color-oak: #9C8B6E;
+  --color-oak-dark: #7A6B54;
+  --color-charcoal: #1E1C18;
+  --color-charcoal-muted: #5C5850;
+
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+
+  --radius-card: 0.75rem;
+  --radius-btn: 0.375rem;
+}
+
+html {
+  background-color: var(--color-ivory);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background-color: var(--color-sand);
+  color: var(--color-charcoal);
+}
+
+/* Scroll behaviour */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Remove focus outline on mouse, keep for keyboard */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-oak);
+  outline-offset: 3px;
+}

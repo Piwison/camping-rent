@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --yes)",
+      "Bash(npm install *)",
+      "Bash(npm config *)",
+      "Bash(npm run *)",
+      "Bash(npx next *)",
+      "Bash(npx tsc *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3001/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3001/gear)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3001/booking)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3001/about)",
+      "Bash(Invoke-WebRequest -Uri \"http://localhost:3001/\" -UseBasicParsing)",
+      "Bash(Select-Object -ExpandProperty StatusCode)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3001/gear/canvas-bell-tent-4m)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3001/gear/camp-set)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3001/gear/nonexistent-slug)",
+      "Bash(curl -s http://localhost:3001/gear/canvas-bell-tent-4m)",
+      "Bash(NODE_TLS_REJECT_UNAUTHORIZED=0 npx next build)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(NODE_TLS_REJECT_UNAUTHORIZED=0 npm run dev)",
+      "Bash(curl -s http://localhost:3002/gear/canvas-bell-tent-4m)",
+      "Bash(node -e ' *)",
+      "Bash(NODE_TLS_REJECT_UNAUTHORIZED=0 npx next start --port 3000)"
+    ]
+  }
+}
