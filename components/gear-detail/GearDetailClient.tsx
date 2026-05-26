@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ShoppingCart, Check } from "@phosphor-icons/react";
-import { formatTWD } from "@/lib/pricing";
+import { formatTWD, calcItemTotal } from "@/lib/pricing";
 import { useBooking } from "@/components/booking/BookingContext";
 import type { GearItem } from "@/types/gear";
 
@@ -23,7 +23,7 @@ export default function GearDetailClient({ item }: { item: GearItem }) {
     setTimeout(() => setAdded(false), 2000);
   }
 
-  const total = item.dailyPrice * Math.max(1, nights);
+  const total = calcItemTotal(item.dailyPrice, nights, 1);
 
   return (
     <div className="pt-24 pb-20 max-w-7xl mx-auto px-6 lg:px-10">
