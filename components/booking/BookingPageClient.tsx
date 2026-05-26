@@ -10,6 +10,8 @@ export default function BookingPageClient() {
   const { items, from, to, nights, total, removeItem, clearCart, setDates } =
     useBooking();
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({ name: "", email: "", phone: "", notes: "" });
 
   function handleDateChange(field: "from" | "to", value: string) {
@@ -23,9 +25,57 @@ export default function BookingPageClient() {
     return d.toISOString().split("T")[0];
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setSubmitted(true);
+    if (items.length === 0 || submitting) return;
+
+    setSubmitting(true);
+    setError(null);
+
+    const payload = {
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      notes: form.notes,
+      checkIn: toDateInput(from),
+      checkOut: toDateInput(to),
+      nights,
+      total,
+      items: items.map((i) => ({
+        name: i.name,
+        type: i.type,
+        quantity: i.quantity,
+        unitPrice: i.price,
+      })),
+    };
+
+    try {
+      const res = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        const firstError = data.errors
+          ? Object.values(data.errors)[0]
+          : data.error;
+        setError(
+          typeof firstError === "string"
+            ? firstError
+            : "Something went wrong. Please try again."
+        );
+        return;
+      }
+
+      clearCart();
+      setSubmitted(true);
+    } catch {
+      setError("Network error — please check your connection and try again.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   if (submitted) {
@@ -147,12 +197,21 @@ export default function BookingPageClient() {
                 />
               </label>
 
+              {error && (
+                <p
+                  role="alert"
+                  className="text-sm text-[#9C3B2E]"
+                >
+                  {error}
+                </p>
+              )}
+
               <button
                 type="submit"
-                disabled={items.length === 0}
+                disabled={items.length === 0 || submitting}
                 className="mt-2 px-6 py-4 bg-[#1E1C18] text-[#F9F6F0] text-sm tracking-wide hover:bg-[#9C8B6E] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                Submit Enquiry 送出預訂
+                {submitting ? "Sending… 送出中" : "Submit Enquiry 送出預訂"}
               </button>
             </form>
           </section>

@@ -37,8 +37,10 @@ Make it _feel_ glamping and get it ship-ready for real enquiries.
 - [x] **Hero depth-parallax animations** + scroll cue (this iteration)
 - [ ] Replace placeholder photography (picsum) with real glamping imagery;
       move to `next/image` for optimization
-- [ ] Wire enquiry submission to a real channel (email / Notion / form backend)
-      with success + error states
+- [x] Wire enquiry submission to a real channel — booking enquiries POST to a
+      validated `/api/enquiry` route that writes a row to a Notion database
+      (with a dev/log fallback when no credentials are set); UI has
+      submitting + error states
 - [ ] Form validation on the booking flow (dates, required contact fields)
 - [ ] SEO + Open Graph metadata per page; sitemap
 - [ ] Basic analytics (page + enquiry-funnel events)
