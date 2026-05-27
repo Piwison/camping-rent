@@ -44,7 +44,9 @@ Make it _feel_ glamping and get it ship-ready for real enquiries.
 - [x] Form validation on the booking flow — inline per-field errors (name,
       email, dates), past-date guard + native date `min`, a Fri–Sun weekend
       hint for bundles, sharing the server's validateEnquiry rules
-- [ ] SEO + Open Graph metadata per page; sitemap
+- [x] SEO + Open Graph metadata per page; dynamic sitemap.xml + robots.txt,
+      metadataBase + title template, a branded OG image, and per-item OG tags
+      on gear detail pages (set `NEXT_PUBLIC_SITE_URL` for production URLs)
 - [ ] Basic analytics (page + enquiry-funnel events)
 - [ ] Accessibility & performance pass — `prefers-reduced-motion` everywhere,
       keyboard/focus states, Lighthouse, font/image loading
