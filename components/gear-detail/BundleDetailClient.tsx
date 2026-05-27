@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { ShoppingCart, Check } from "@phosphor-icons/react";
 import { formatTWD } from "@/lib/pricing";
 import { useBooking } from "@/components/booking/BookingContext";
@@ -48,12 +49,15 @@ export default function BundleDetailClient({
             initial={{ opacity: 0.7 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
-            className="aspect-[4/3] overflow-hidden mb-3"
+            className="relative aspect-[4/3] overflow-hidden mb-3"
           >
-            <img
+            <Image
               src={bundle.images[activeImg]}
               alt={bundle.name}
-              className="w-full h-full object-cover"
+              fill
+              priority
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
             />
           </motion.div>
           {bundle.images.length > 1 && (
@@ -62,11 +66,11 @@ export default function BundleDetailClient({
                 <button
                   key={i}
                   onClick={() => setActiveImg(i)}
-                  className={`w-16 h-16 overflow-hidden border-2 transition-colors ${
+                  className={`relative w-16 h-16 overflow-hidden border-2 transition-colors ${
                     i === activeImg ? "border-[#9C8B6E]" : "border-transparent"
                   }`}
                 >
-                  <img src={src} alt="" className="w-full h-full object-cover" />
+                  <Image src={src} alt="" fill sizes="64px" className="object-cover" />
                 </button>
               ))}
             </div>
@@ -139,11 +143,13 @@ export default function BundleDetailClient({
                   href={`/gear/${item.slug}`}
                   className="group flex items-center gap-3 text-sm hover:text-[#9C8B6E] transition-colors"
                 >
-                  <div className="w-10 h-10 overflow-hidden shrink-0">
-                    <img
+                  <div className="relative w-10 h-10 overflow-hidden shrink-0">
+                    <Image
                       src={item.images[0]}
                       alt={item.name}
-                      className="w-full h-full object-cover"
+                      fill
+                      sizes="40px"
+                      className="object-cover"
                     />
                   </div>
                   <div>

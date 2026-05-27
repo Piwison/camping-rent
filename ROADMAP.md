@@ -35,8 +35,10 @@ The design system and core browsing experience.
 Make it _feel_ glamping and get it ship-ready for real enquiries.
 
 - [x] **Hero depth-parallax animations** + scroll cue (this iteration)
-- [ ] Replace placeholder photography (picsum) with real glamping imagery;
-      move to `next/image` for optimization
+- [x] Migrate all imagery to `next/image` — responsive `sizes`, lazy-loading,
+      `priority` on LCP images, picsum allowlisted via `remotePatterns`
+- [ ] Replace placeholder picsum photos with real glamping photography
+      (self-host under `/public`, or add the CDN host to `remotePatterns`)
 - [x] Wire enquiry submission to a real channel — booking enquiries POST to a
       validated `/api/enquiry` route that writes a row to a Notion database
       (with a dev/log fallback when no credentials are set); UI has

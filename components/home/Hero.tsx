@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   motion,
   useScroll,
@@ -174,11 +175,16 @@ export default function Hero() {
             className="absolute inset-0"
           >
             {/* Overscan so parallax translation never reveals an edge */}
-            <img
-              src="https://picsum.photos/seed/hero-camp/1200/1600"
-              alt="Glamping setup at a Taiwan campsite"
-              className="absolute top-[-10%] left-[-5%] w-[110%] h-[120%] object-cover"
-            />
+            <div className="absolute top-[-10%] left-[-5%] w-[110%] h-[120%]">
+              <Image
+                src="https://picsum.photos/seed/hero-camp/1200/1600"
+                alt="Glamping setup at a Taiwan campsite"
+                fill
+                priority
+                sizes="(min-width: 1024px) 55vw, 100vw"
+                className="object-cover"
+              />
+            </div>
 
             {/* Floating accent — drifts opposite for depth */}
             <motion.div

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { ShoppingCart, Check } from "@phosphor-icons/react";
 import { formatTWD, calcItemTotal } from "@/lib/pricing";
 import { useBooking } from "@/components/booking/BookingContext";
@@ -35,12 +36,15 @@ export default function GearDetailClient({ item }: { item: GearItem }) {
             initial={{ opacity: 0.7 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
-            className="aspect-[4/3] overflow-hidden mb-3"
+            className="relative aspect-[4/3] overflow-hidden mb-3"
           >
-            <img
+            <Image
               src={item.images[activeImg]}
               alt={item.name}
-              className="w-full h-full object-cover"
+              fill
+              priority
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
             />
           </motion.div>
           {item.images.length > 1 && (
@@ -49,11 +53,11 @@ export default function GearDetailClient({ item }: { item: GearItem }) {
                 <button
                   key={i}
                   onClick={() => setActiveImg(i)}
-                  className={`w-16 h-16 overflow-hidden border-2 transition-colors ${
+                  className={`relative w-16 h-16 overflow-hidden border-2 transition-colors ${
                     i === activeImg ? "border-[#9C8B6E]" : "border-transparent"
                   }`}
                 >
-                  <img src={src} alt="" className="w-full h-full object-cover" />
+                  <Image src={src} alt="" fill sizes="64px" className="object-cover" />
                 </button>
               ))}
             </div>

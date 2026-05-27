@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "@phosphor-icons/react";
 
 const values = [
@@ -64,12 +65,14 @@ export default function AboutClient() {
           initial={{ opacity: 0, x: 24 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="aspect-[3/4] overflow-hidden"
+          className="relative aspect-[3/4] overflow-hidden"
         >
-          <img
+          <Image
             src="https://picsum.photos/seed/about-hero/900/1200"
             alt="Glamping in Taiwan"
-            className="w-full h-full object-cover"
+            fill
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            className="object-cover"
           />
         </motion.div>
       </div>

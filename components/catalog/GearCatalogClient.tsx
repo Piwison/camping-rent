@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { formatTWD } from "@/lib/pricing";
 import type { GearItem, GearBundle, GearCategory } from "@/types/gear";
 
@@ -65,10 +66,12 @@ export default function GearCatalogClient({
             >
               <Link href={`/gear/${bundle.slug}`} className="group block">
                 <div className="relative overflow-hidden aspect-[4/3] mb-4">
-                  <img
+                  <Image
                     src={bundle.images[0]}
                     alt={bundle.name}
-                    className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                    fill
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
                   />
                   <div className="absolute top-3 left-3 bg-[#1E1C18] text-[#F9F6F0] text-[10px] tracking-widest uppercase px-2.5 py-1">
                     {tierLabel[bundle.tier]}
@@ -128,10 +131,12 @@ export default function GearCatalogClient({
             >
               <Link href={`/gear/${item.slug}`} className="group block">
                 <div className="relative overflow-hidden aspect-square mb-3">
-                  <img
+                  <Image
                     src={item.images[0]}
                     alt={item.name}
-                    className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
+                    fill
+                    sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+                    className="object-cover group-hover:scale-[1.04] transition-transform duration-500"
                   />
                 </div>
                 <p className="text-[10px] tracking-widest uppercase text-[#9C8B6E] mb-0.5">
