@@ -50,3 +50,34 @@ html {
   outline: 2px solid var(--color-oak);
   outline-offset: 3px;
 }
+
+/* Skip-to-content link — visible only when focused */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: var(--color-ivory);
+  background-color: var(--color-charcoal);
+  border-radius: var(--radius-btn);
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* Honour the user's reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

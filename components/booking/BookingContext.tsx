@@ -7,6 +7,7 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
+import { MotionConfig } from "framer-motion";
 import type { BookingItem } from "@/types/gear";
 import { calcNights, calcBookingTotal, defaultWeekendDates } from "@/lib/pricing";
 
@@ -58,21 +59,23 @@ export function BookingProvider({ children }: { children: ReactNode }) {
   const total = calcBookingTotal(items, nights);
 
   return (
-    <BookingContext.Provider
-      value={{
-        items,
-        from,
-        to,
-        nights,
-        total,
-        addItem,
-        removeItem,
-        clearCart,
-        setDates,
-      }}
-    >
-      {children}
-    </BookingContext.Provider>
+    <MotionConfig reducedMotion="user">
+      <BookingContext.Provider
+        value={{
+          items,
+          from,
+          to,
+          nights,
+          total,
+          addItem,
+          removeItem,
+          clearCart,
+          setDates,
+        }}
+      >
+        {children}
+      </BookingContext.Provider>
+    </MotionConfig>
   );
 }
 

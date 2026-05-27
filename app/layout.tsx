@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import SiteHeader from "@/components/layout/SiteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
@@ -38,6 +38,10 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#F9F6F0",
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -54,9 +58,14 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-[#F9F6F0] text-[#1E1C18]">
+        <a href="#main-content" className="skip-link">
+          Skip to content
+        </a>
         <BookingProvider>
           <SiteHeader />
-          <main>{children}</main>
+          <main id="main-content" tabIndex={-1}>
+            {children}
+          </main>
           <SiteFooter />
         </BookingProvider>
       </body>

@@ -65,9 +65,12 @@ export default function SiteHeader() {
 
         {/* Mobile menu toggle */}
         <button
+          type="button"
           className="md:hidden text-[#1E1C18]"
           onClick={() => setMenuOpen((v) => !v)}
-          aria-label="Toggle menu"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
         >
           {menuOpen ? <X size={22} /> : <List size={22} />}
         </button>
@@ -75,7 +78,7 @@ export default function SiteHeader() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-[#F9F6F0] border-t border-[#DDD6C1] px-6 py-6 flex flex-col gap-5">
+        <div id="mobile-menu" className="md:hidden bg-[#F9F6F0] border-t border-[#DDD6C1] px-6 py-6 flex flex-col gap-5">
           {navLinks.map((link) => (
             <Link
               key={link.href}

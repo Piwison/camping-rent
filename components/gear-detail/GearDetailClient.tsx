@@ -52,7 +52,10 @@ export default function GearDetailClient({ item }: { item: GearItem }) {
               {item.images.map((src, i) => (
                 <button
                   key={i}
+                  type="button"
                   onClick={() => setActiveImg(i)}
+                  aria-label={`View image ${i + 1} of ${item.images.length}`}
+                  aria-current={i === activeImg}
                   className={`relative w-16 h-16 overflow-hidden border-2 transition-colors ${
                     i === activeImg ? "border-[#9C8B6E]" : "border-transparent"
                   }`}

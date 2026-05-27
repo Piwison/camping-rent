@@ -50,8 +50,11 @@ Make it _feel_ glamping and get it ship-ready for real enquiries.
       metadataBase + title template, a branded OG image, and per-item OG tags
       on gear detail pages (set `NEXT_PUBLIC_SITE_URL` for production URLs)
 - [ ] Basic analytics (page + enquiry-funnel events)
-- [ ] Accessibility & performance pass — `prefers-reduced-motion` everywhere,
-      keyboard/focus states, Lighthouse, font/image loading
+- [x] Accessibility pass — global `prefers-reduced-motion` (MotionConfig + CSS),
+      skip-to-content link, focusable `<main>`, mobile-nav `aria-expanded`/
+      `aria-controls`, labelled image-thumbnail buttons, `theme-color`
+- [ ] Deeper perf — migrate fonts to `next/font` (self-host, preload; blocked in
+      this sandbox by font-CDN egress) and run a Lighthouse audit on deploy
 
 ## Phase 2 — Vendor Dashboard & Operations
 
