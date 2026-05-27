@@ -41,7 +41,9 @@ Make it _feel_ glamping and get it ship-ready for real enquiries.
       validated `/api/enquiry` route that writes a row to a Notion database
       (with a dev/log fallback when no credentials are set); UI has
       submitting + error states
-- [ ] Form validation on the booking flow (dates, required contact fields)
+- [x] Form validation on the booking flow — inline per-field errors (name,
+      email, dates), past-date guard + native date `min`, a Fri–Sun weekend
+      hint for bundles, sharing the server's validateEnquiry rules
 - [ ] SEO + Open Graph metadata per page; sitemap
 - [ ] Basic analytics (page + enquiry-funnel events)
 - [ ] Accessibility & performance pass — `prefers-reduced-motion` everywhere,
