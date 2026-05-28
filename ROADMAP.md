@@ -55,8 +55,9 @@ Make it _feel_ glamping and get it ship-ready for real enquiries.
 - [x] Accessibility pass — global `prefers-reduced-motion` (MotionConfig + CSS),
       skip-to-content link, focusable `<main>`, mobile-nav `aria-expanded`/
       `aria-controls`, labelled image-thumbnail buttons, `theme-color`
-- [ ] Deeper perf — migrate fonts to `next/font` (self-host, preload; blocked in
-      this sandbox by font-CDN egress) and run a Lighthouse audit on deploy
+- [x] Deeper perf — fonts migrated to `next/font/google` (Playfair Display +
+      DM Sans now self-hosted as woff2 and preloaded; the external Google Fonts
+      `<link>`/preconnect are gone). _Still to do: a Lighthouse audit on deploy._
 
 ## Phase 2 — Vendor Dashboard & Operations
 
