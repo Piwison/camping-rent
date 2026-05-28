@@ -1,38 +1,74 @@
-# Basecamp & Co. — Domain Glossary
+# Basecamp & Co.
 
-## Glossary
+The domain glossary for Basecamp & Co. — a glamping gear rental service for
+Taiwan's **Weekend Escapist**. This file defines the language of the domain and
+nothing else: no implementation details, no roadmap. For decisions see
+`docs/adr/`; for the build plan see `ROADMAP.md`.
 
-### Glamping
-**Definition:** The target experience category. A portmanteau of "glamorous" and "camping." Refers to camping that prioritises aesthetic comfort and design over survival skill. Not the same as luxury camping (resorts) — glamping happens at real campsites, with real gear, but curated for visual and lifestyle appeal.
-**Scope:** The core positioning of the entire product. Every design and product decision should ask "does this feel glamping?"
+## Language
 
-### Weekend Escapist
-**Definition:** The primary customer persona. An urban professional aged 28–35 in Taiwan who wants a beautiful outdoor experience without owning gear. Comfortable spending NT$3,000–4,500 for a weekend trip. Follows design accounts, has stayed in boutique hotels, and treats camping as an aesthetic experience.
-**Scope:** All copy, UX flows, and product decisions should be optimised for this persona.
+### Positioning & people
 
-### Bundle
-**Definition:** A pre-curated set of gear items sold as a single rental unit at a discounted weekend price. Bundles have three tiers: Solo, Standard (Camp Set), and Deluxe (Full Grounds). Bundle pricing is fixed per weekend (Fri–Sun), not per day.
-**Contrast:** Different from an individual Item, which is priced per day.
+**Glamping**:
+Camping that prioritises aesthetic comfort and design over survival skill. Happens at real campsites with real gear, curated for visual and lifestyle appeal. The lens for every product decision: "does this feel glamping?"
+_Avoid_: luxury camping, resort camping (those imply resorts, not campsites).
 
-### Item
-**Definition:** An individual piece of gear available to rent separately (e.g., a tent, a chair, a lantern). Priced in TWD per day. Customers can rent items standalone or add them to a Bundle.
-**Contrast:** Different from a Bundle, which has a fixed weekend price.
+**Weekend Escapist**:
+The primary customer persona — an urban professional aged 28–35 in Taiwan who wants a beautiful outdoor experience without owning gear, and treats camping as an aesthetic experience.
+_Avoid_: user, client, customer (when you mean this persona specifically).
 
-### Weekend
-**Definition:** The standard rental period. Friday check-in to Sunday check-out (2 nights). The default date selection in the booking flow. Bundle prices are expressed per weekend.
+### Catalog
 
-### TWD (NT$)
-**Definition:** New Taiwan Dollar. All pricing on the platform is in TWD, formatted as `NT$X,XXX`.
+**Item**:
+An individual piece of gear available to rent on its own — a tent, a chair, a lantern. Priced per **Weekend** day in **TWD**. Belongs to one **Category**.
+_Avoid_: product, SKU, gear (when you mean a single rentable unit).
+
+**Bundle**:
+A pre-curated set of **Items** sold as a single rental unit at a fixed **Weekend** price. Has one of three **Tiers**.
+_Avoid_: package, kit, set.
+
+**Catalog**:
+The full collection of **Items** and **Bundles** available to rent.
+
+**Category**:
+The classification of an **Item**: `shelter`, `furniture`, `kitchen`, `lighting`, `bedding`, or `other`. Used to filter the catalog.
+_Avoid_: type, group, tag.
+
+**Tier**:
+The level of a **Bundle**, one of three: `solo` ("Solo Escape", 1 person, minimal), `standard` ("Camp Set", 2 persons, full setup), `deluxe` ("Full Grounds", 2–4 persons, complete glamping setup).
+_Avoid_: level, grade, plan.
 
 ### Booking
-**Definition:** A customer's rental enquiry that captures: trip dates, selected items/bundles, and contact details. In MVP, a Booking ends at "Submit Enquiry" — no payment is processed. Confirmation happens offline within 24 hours.
-**Scope:** The MVP booking flow does not include payment, accounts, or real-time availability.
 
-### Vendor Dashboard
-**Definition:** An admin interface for the gear owner to manage the catalog (add/edit/remove items, set availability, upload photos). **Phase 2 only** — not part of MVP. In MVP, catalog is managed via `/data/gear.ts`.
+**Weekend**:
+The standard rental period — Friday check-in to Sunday check-out, 2 nights. The default date selection in the **Booking** flow. **Bundle** prices are expressed per Weekend.
 
-### Category
-**Definition:** A classification for individual gear Items. Values: `shelter`, `furniture`, `kitchen`, `lighting`, `bedding`, `other`. Used for filtering on the Gear Catalog page.
+**Booking**:
+A customer's rental enquiry capturing trip dates, selected **Items**/**Bundles**, and contact details. A Booking ends when the customer submits the **Enquiry** — there is no payment in the flow.
+_Avoid_: order, reservation, cart, checkout.
 
-### Tier
-**Definition:** The three bundle levels: `solo` (1 person, minimal), `standard` (2 persons, full setup), `deluxe` (2–4 persons, complete glamping setup). Displayed as "Solo Escape", "Camp Set", and "Full Grounds".
+**Enquiry**:
+The submission that completes a **Booking**: the captured trip details sent to the gear owner, who confirms offline. Pricing is honoured by the rule that **Bundles** are a flat Weekend price while **Items** are charged per night.
+_Avoid_: request, lead, message, form.
+
+**Vendor**:
+The gear owner who fulfils Bookings and manages the **Catalog**.
+_Avoid_: admin, seller, merchant, supplier.
+
+### Money
+
+**TWD (NT$)**:
+New Taiwan Dollar. All pricing is in TWD, formatted as `NT$X,XXX`. The only currency on the platform.
+
+## Example dialogue
+
+> **Dev:** When a Weekend Escapist adds the Camp Set to their Booking, do we
+> charge per night like the other gear?
+>
+> **Owner:** No — that's a Bundle, so it's a flat Weekend price. Only
+> individual Items are per-night.
+>
+> **Dev:** And once they hit submit?
+>
+> **Owner:** That's the Enquiry. There's no payment — it lands with the Vendor,
+> who confirms offline. The Booking is "done" the moment the Enquiry is sent.
