@@ -6,6 +6,7 @@ import { Trash, Check } from "@phosphor-icons/react";
 import { useBooking } from "./BookingContext";
 import { formatTWD } from "@/lib/pricing";
 import { validateEnquiry, toEnquiryItems, type EnquiryPayload } from "@/lib/enquiry";
+import { track } from "@/lib/analytics";
 
 export default function BookingPageClient() {
   const { items, from, to, nights, total, removeItem, clearCart, setDates } =
@@ -83,12 +84,19 @@ export default function BookingPageClient() {
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
       setError(null);
+      track({ name: "enquiry_failed", reason: "validation" });
       return;
     }
 
     setSubmitting(true);
     setError(null);
     setFieldErrors({});
+    track({
+      name: "enquiry_submitted",
+      items: payload.items.length,
+      total: payload.total,
+      nights: payload.nights,
+    });
 
     try {
       const res = await fetch("/api/enquiry", {
@@ -108,13 +116,20 @@ export default function BookingPageClient() {
               : "Something went wrong. Please try again."
           );
         }
+        track({ name: "enquiry_failed", reason: "server" });
         return;
       }
 
+      const data = await res.json().catch(() => ({}));
+      track({
+        name: "enquiry_succeeded",
+        delivered: data.delivered === "skipped" ? "skipped" : "sent",
+      });
       clearCart();
       setSubmitted(true);
     } catch {
       setError("Network error — please check your connection and try again.");
+      track({ name: "enquiry_failed", reason: "network" });
     } finally {
       setSubmitting(false);
     }

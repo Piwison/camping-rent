@@ -6,6 +6,7 @@ import Image from "next/image";
 import { ShoppingCart, Check } from "@phosphor-icons/react";
 import { formatTWD, calcItemTotal } from "@/lib/pricing";
 import { useBooking } from "@/components/booking/BookingContext";
+import { track } from "@/lib/analytics";
 import type { GearItem } from "@/types/gear";
 
 export default function GearDetailClient({ item }: { item: GearItem }) {
@@ -20,6 +21,7 @@ export default function GearDetailClient({ item }: { item: GearItem }) {
       name: item.name,
       price: item.dailyPrice,
     });
+    track({ name: "booking_item_added", itemType: "item", id: item.id });
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   }

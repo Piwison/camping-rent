@@ -49,7 +49,9 @@ Make it _feel_ glamping and get it ship-ready for real enquiries.
 - [x] SEO + Open Graph metadata per page; dynamic sitemap.xml + robots.txt,
       metadataBase + title template, a branded OG image, and per-item OG tags
       on gear detail pages (set `NEXT_PUBLIC_SITE_URL` for production URLs)
-- [ ] Basic analytics (page + enquiry-funnel events)
+- [x] Basic analytics — provider-agnostic `track()` seam (ADR-0005) emitting
+      page views + the enquiry funnel (added → submitted → succeeded/failed);
+      default sink logs in dev / pushes to `dataLayer`, pluggable provider later
 - [x] Accessibility pass — global `prefers-reduced-motion` (MotionConfig + CSS),
       skip-to-content link, focusable `<main>`, mobile-nav `aria-expanded`/
       `aria-controls`, labelled image-thumbnail buttons, `theme-color`

@@ -3,6 +3,7 @@ import "./globals.css";
 import SiteHeader from "@/components/layout/SiteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
 import { BookingProvider } from "@/components/booking/BookingContext";
+import RouteAnalytics from "@/components/analytics/RouteAnalytics";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -61,6 +62,7 @@ export default function RootLayout({
         <a href="#main-content" className="skip-link">
           Skip to content
         </a>
+        <RouteAnalytics />
         <BookingProvider>
           <SiteHeader />
           <main id="main-content" tabIndex={-1}>

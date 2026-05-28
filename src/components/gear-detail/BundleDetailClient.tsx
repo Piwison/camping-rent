@@ -7,6 +7,7 @@ import Image from "next/image";
 import { ShoppingCart, Check } from "@phosphor-icons/react";
 import { formatTWD } from "@/lib/pricing";
 import { useBooking } from "@/components/booking/BookingContext";
+import { track } from "@/lib/analytics";
 import type { GearBundle, GearItem } from "@/types/gear";
 
 const tierLabel: Record<string, string> = {
@@ -33,6 +34,7 @@ export default function BundleDetailClient({
       name: bundle.name,
       price: bundle.bundlePrice,
     });
+    track({ name: "booking_item_added", itemType: "bundle", id: bundle.id });
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   }
