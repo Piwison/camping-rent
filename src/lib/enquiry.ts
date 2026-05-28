@@ -1,8 +1,21 @@
+import type { BookingItem } from "@/types/gear";
+
 export interface EnquiryItem {
   name: string;
   type: "item" | "bundle";
   quantity: number;
   unitPrice: number;
+}
+
+// The single translation from a Booking line to an Enquiry line: drops the
+// internal id and renames price to unitPrice for the wire payload.
+export function toEnquiryItems(items: BookingItem[]): EnquiryItem[] {
+  return items.map((i) => ({
+    name: i.name,
+    type: i.type,
+    quantity: i.quantity,
+    unitPrice: i.price,
+  }));
 }
 
 export interface EnquiryPayload {

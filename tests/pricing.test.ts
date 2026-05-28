@@ -2,7 +2,6 @@ import { describe, it, expect } from "vitest";
 import {
   calcNights,
   calcItemTotal,
-  calcCartTotal,
   calcBookingTotal,
   formatTWD,
 } from "@/lib/pricing";
@@ -25,20 +24,6 @@ describe("calcItemTotal", () => {
   it("multiplies daily price × nights × quantity", () => {
     expect(calcItemTotal(500, 2, 1)).toBe(1000);
     expect(calcItemTotal(300, 2, 2)).toBe(1200);
-  });
-});
-
-describe("calcCartTotal", () => {
-  it("sums all items price × quantity", () => {
-    const items: BookingItem[] = [
-      { type: "item", id: "a", name: "Tent", price: 800, quantity: 1 },
-      { type: "bundle", id: "b", name: "Bundle", price: 3200, quantity: 1 },
-    ];
-    expect(calcCartTotal(items)).toBe(4000);
-  });
-
-  it("returns 0 for empty cart", () => {
-    expect(calcCartTotal([])).toBe(0);
   });
 });
 

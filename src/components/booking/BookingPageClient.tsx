@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Trash, Check } from "@phosphor-icons/react";
 import { useBooking } from "./BookingContext";
 import { formatTWD } from "@/lib/pricing";
-import { validateEnquiry, type EnquiryPayload } from "@/lib/enquiry";
+import { validateEnquiry, toEnquiryItems, type EnquiryPayload } from "@/lib/enquiry";
 
 export default function BookingPageClient() {
   const { items, from, to, nights, total, removeItem, clearCart, setDates } =
@@ -52,12 +52,7 @@ export default function BookingPageClient() {
       checkOut: toDateInput(to),
       nights,
       total,
-      items: items.map((i) => ({
-        name: i.name,
-        type: i.type,
-        quantity: i.quantity,
-        unitPrice: i.price,
-      })),
+      items: toEnquiryItems(items),
     };
   }
 

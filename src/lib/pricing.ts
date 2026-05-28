@@ -9,10 +9,6 @@ export function calcItemTotal(dailyPrice: number, nights: number, qty: number): 
   return dailyPrice * nights * qty;
 }
 
-export function calcCartTotal(items: BookingItem[]): number {
-  return items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-}
-
 // Booking total honouring the rental rules: bundles are a flat weekend price,
 // individual items are charged per night.
 export function calcBookingTotal(items: BookingItem[], nights: number): number {
