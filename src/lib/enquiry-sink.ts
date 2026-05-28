@@ -2,17 +2,14 @@ import "server-only";
 import type { EnquiryPayload } from "./enquiry";
 import { formatEnquiryItems } from "./enquiry";
 
-const NOTION_PAGES_URL = "https://api.notion.com/v1/pages";
-const NOTION_VERSION = "2022-06-28";
-
 export type EnquiryResult =
   | { status: "sent" }
   | { status: "skipped" } // no provider configured — logged for local dev
   | { status: "error"; message: string };
 
-// Writes an enquiry as a new row in the Notion "Enquiries" database. When the
-// Notion env vars are absent (e.g. local dev) the enquiry is logged instead so
-// the booking flow stays testable without credentials.
+// The Enquiry sink seam: where a submitted Enquiry goes. Today the only adapter
+// is Notion; without its env vars the Enquiry is logged and reported `skipped`
+// so the booking flow stays usable in local dev (ADR-0003).
 export async function deliverEnquiry(
   payload: EnquiryPayload
 ): Promise<EnquiryResult> {
@@ -31,6 +28,19 @@ export async function deliverEnquiry(
     return { status: "skipped" };
   }
 
+  return postToNotion(payload, token, databaseId);
+}
+
+const NOTION_PAGES_URL = "https://api.notion.com/v1/pages";
+const NOTION_VERSION = "2022-06-28";
+
+// Notion adapter — writes the Enquiry as a row in the Notion "Enquiries"
+// database. Private to this module; callers use deliverEnquiry.
+async function postToNotion(
+  payload: EnquiryPayload,
+  token: string,
+  databaseId: string
+): Promise<EnquiryResult> {
   const body = {
     parent: { database_id: databaseId },
     properties: {

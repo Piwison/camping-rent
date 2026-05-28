@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { validateEnquiry, type EnquiryPayload } from "@/lib/enquiry";
-import { deliverEnquiry } from "@/lib/notion";
+import { deliverEnquiry } from "@/lib/enquiry-sink";
 
 export async function POST(req: Request) {
   let payload: Partial<EnquiryPayload>;

@@ -50,9 +50,9 @@ ROADMAP.md       # phased build plan
 - **Catalog is code.** Edit gear in `src/data/gear.ts`; route reads through the
   query helpers, not the raw arrays, so the Phase 2 datastore swap stays behind
   that seam (ADR-0001).
-- **Enquiry delivery is seam-able.** `deliverEnquiry` in `src/lib/notion.ts` is
-  the boundary to the Notion sink; without env vars it logs and returns
-  `skipped` (ADR-0003).
+- **Enquiry delivery is seam-able.** `deliverEnquiry` in `src/lib/enquiry-sink.ts`
+  is the role-named boundary; the Notion call is a private adapter behind it, and
+  without env vars it logs and returns `skipped` (ADR-0003).
 - **Pricing rule:** Bundles are a flat **Weekend** price; Items are per night.
   This lives in `src/lib/pricing.ts` and is enforced by `calcBookingTotal`.
 - **Pure logic in `lib/`, rendering in `components/`.** Keep `lib/` free of
