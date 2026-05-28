@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getItemBySlug, getBundleBySlug, gearItems, gearBundles, getBundleItems } from "@/data/gear";
+import { getItemBySlug, getBundleBySlug, getBundleItems, allCatalogSlugs } from "@/data/gear";
 import GearDetailClient from "@/components/gear-detail/GearDetailClient";
 import BundleDetailClient from "@/components/gear-detail/BundleDetailClient";
 import { pageMeta } from "@/lib/site";
 
 export async function generateStaticParams() {
-  const itemSlugs = gearItems.map((i) => ({ slug: i.slug }));
-  const bundleSlugs = gearBundles.map((b) => ({ slug: b.slug }));
-  return [...itemSlugs, ...bundleSlugs];
+  return allCatalogSlugs().map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({

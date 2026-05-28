@@ -1,6 +1,9 @@
 import type { GearItem, GearBundle } from "@/types/gear";
 
-export const gearItems: GearItem[] = [
+// The literal Catalog is private to this module — callers read it only through
+// the query functions below, so the Phase 2 datastore swap (ADR-0001) stays
+// behind this seam.
+const items: GearItem[] = [
   {
     id: "tent-01",
     slug: "canvas-bell-tent-4m",
@@ -249,7 +252,7 @@ export const gearItems: GearItem[] = [
   },
 ];
 
-export const gearBundles: GearBundle[] = [
+const bundles: GearBundle[] = [
   {
     id: "bundle-solo",
     slug: "solo-escape",
@@ -313,20 +316,41 @@ export const gearBundles: GearBundle[] = [
   },
 ];
 
+export function listItems(): readonly GearItem[] {
+  return items;
+}
+
+export function listBundles(): readonly GearBundle[] {
+  return bundles;
+}
+
+export function featuredItems(): GearItem[] {
+  return items.filter((i) => i.featured);
+}
+
+export function featuredBundles(): GearBundle[] {
+  return bundles.filter((b) => b.featured);
+}
+
 export function getItemById(id: string): GearItem | undefined {
-  return gearItems.find((i) => i.id === id);
+  return items.find((i) => i.id === id);
 }
 
 export function getItemBySlug(slug: string): GearItem | undefined {
-  return gearItems.find((i) => i.slug === slug);
+  return items.find((i) => i.slug === slug);
 }
 
 export function getBundleBySlug(slug: string): GearBundle | undefined {
-  return gearBundles.find((b) => b.slug === slug);
+  return bundles.find((b) => b.slug === slug);
 }
 
 export function getBundleItems(bundle: GearBundle): GearItem[] {
   return bundle.itemIds
     .map((id) => getItemById(id))
     .filter((item): item is GearItem => item !== undefined);
+}
+
+// Every Item and Bundle slug — the routable detail pages under /gear/[slug].
+export function allCatalogSlugs(): string[] {
+  return [...items, ...bundles].map((entry) => entry.slug);
 }

@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { gearItems, gearBundles } from "@/data/gear";
+import { allCatalogSlugs } from "@/data/gear";
 import { siteConfig } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -17,11 +17,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: r.priority,
   }));
 
-  const detailRoutes: MetadataRoute.Sitemap = [
-    ...gearItems,
-    ...gearBundles,
-  ].map((entry) => ({
-    url: `${siteConfig.url}/gear/${entry.slug}`,
+  const detailRoutes: MetadataRoute.Sitemap = allCatalogSlugs().map((slug) => ({
+    url: `${siteConfig.url}/gear/${slug}`,
     lastModified: now,
     changeFrequency: "monthly",
     priority: 0.5,

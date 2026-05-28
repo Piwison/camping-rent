@@ -1,4 +1,4 @@
-import { gearItems, gearBundles } from "@/data/gear";
+import { listItems, listBundles } from "@/data/gear";
 import GearCatalogClient from "@/components/catalog/GearCatalogClient";
 import { pageMeta } from "@/lib/site";
 
@@ -10,5 +10,5 @@ export const metadata = pageMeta({
 });
 
 export default function GearPage() {
-  return <GearCatalogClient items={gearItems} bundles={gearBundles} />;
+  return <GearCatalogClient items={listItems()} bundles={listBundles()} />;
 }

@@ -27,8 +27,8 @@ export default function GearCatalogClient({
   items,
   bundles,
 }: {
-  items: GearItem[];
-  bundles: GearBundle[];
+  items: readonly GearItem[];
+  bundles: readonly GearBundle[];
 }) {
   const [activeCategory, setActiveCategory] = useState<GearCategory | "all">("all");
 
