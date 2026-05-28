@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight } from "@phosphor-icons/react";
 import { formatTWD } from "@/lib/pricing";
@@ -49,10 +50,12 @@ export default function FeaturedBundles({ bundles }: { bundles: GearBundle[] }) 
             <Link href={`/gear/${bundle.slug}`} className="group block">
               {/* Image */}
               <div className="relative overflow-hidden aspect-[3/4] mb-5">
-                <img
+                <Image
                   src={bundle.images[0]}
                   alt={bundle.name}
-                  className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                  fill
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
                 />
                 <div className="absolute top-4 left-4 bg-[#F9F6F0]/90 backdrop-blur-sm px-3 py-1.5">
                   <span className="text-[10px] tracking-widest uppercase text-[#5C5850]">

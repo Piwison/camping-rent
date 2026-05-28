@@ -24,7 +24,8 @@
       "Bash(NODE_TLS_REJECT_UNAUTHORIZED=0 npm run dev)",
       "Bash(curl -s http://localhost:3002/gear/canvas-bell-tent-4m)",
       "Bash(node -e ' *)",
-      "Bash(NODE_TLS_REJECT_UNAUTHORIZED=0 npx next start --port 3000)"
+      "Bash(NODE_TLS_REJECT_UNAUTHORIZED=0 npx next start --port 3000)",
+      "mcp__871d2f38-0504-449e-8d0a-9357d281951c__notion-create-database"
     ]
   }
 }

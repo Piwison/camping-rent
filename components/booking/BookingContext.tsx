@@ -7,9 +7,9 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
+import { MotionConfig } from "framer-motion";
 import type { BookingItem } from "@/types/gear";
-import { calcCartTotal } from "@/lib/pricing";
-import { defaultWeekendDates } from "@/lib/pricing";
+import { calcNights, calcBookingTotal, defaultWeekendDates } from "@/lib/pricing";
 
 interface BookingState {
   items: BookingItem[];
@@ -31,10 +31,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
   const [from, setFrom] = useState<Date>(defaults.from);
   const [to, setTo] = useState<Date>(defaults.to);
 
-  const nights = Math.max(
-    1,
-    Math.round((to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24))
-  );
+  const nights = calcNights(from, to);
 
   const addItem = useCallback((item: Omit<BookingItem, "quantity">) => {
     setItems((prev) => {
@@ -59,28 +56,26 @@ export function BookingProvider({ children }: { children: ReactNode }) {
     setTo(t);
   }, []);
 
-  const total = items.reduce((sum, item) => {
-    const unitPrice =
-      item.type === "bundle" ? item.price : item.price * nights;
-    return sum + unitPrice * item.quantity;
-  }, 0);
+  const total = calcBookingTotal(items, nights);
 
   return (
-    <BookingContext.Provider
-      value={{
-        items,
-        from,
-        to,
-        nights,
-        total,
-        addItem,
-        removeItem,
-        clearCart,
-        setDates,
-      }}
-    >
-      {children}
-    </BookingContext.Provider>
+    <MotionConfig reducedMotion="user">
+      <BookingContext.Provider
+        value={{
+          items,
+          from,
+          to,
+          nights,
+          total,
+          addItem,
+          removeItem,
+          clearCart,
+          setDates,
+        }}
+      >
+        {children}
+      </BookingContext.Provider>
+    </MotionConfig>
   );
 }
 

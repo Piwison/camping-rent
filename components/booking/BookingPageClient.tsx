@@ -5,28 +5,129 @@ import { motion } from "framer-motion";
 import { Trash, Check } from "@phosphor-icons/react";
 import { useBooking } from "./BookingContext";
 import { formatTWD } from "@/lib/pricing";
+import { validateEnquiry, type EnquiryPayload } from "@/lib/enquiry";
 
 export default function BookingPageClient() {
   const { items, from, to, nights, total, removeItem, clearCart, setDates } =
     useBooking();
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [form, setForm] = useState({ name: "", email: "", phone: "", notes: "" });
+
+  function toDateInput(d: Date) {
+    return d.toISOString().split("T")[0];
+  }
+
+  function clearFieldError(field: string) {
+    setFieldErrors((prev) => {
+      if (!prev[field]) return prev;
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+  }
+
+  function updateForm(field: keyof typeof form, value: string) {
+    setForm((f) => ({ ...f, [field]: value }));
+    clearFieldError(field);
+  }
 
   function handleDateChange(field: "from" | "to", value: string) {
     const d = new Date(value);
     if (isNaN(d.getTime())) return;
     if (field === "from") setDates(d, to);
     else setDates(from, d);
+    clearFieldError(field === "from" ? "checkIn" : "checkOut");
   }
 
-  function toDateInput(d: Date) {
-    return d.toISOString().split("T")[0];
+  function buildPayload(): EnquiryPayload {
+    return {
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      notes: form.notes,
+      checkIn: toDateInput(from),
+      checkOut: toDateInput(to),
+      nights,
+      total,
+      items: items.map((i) => ({
+        name: i.name,
+        type: i.type,
+        quantity: i.quantity,
+        unitPrice: i.price,
+      })),
+    };
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  // Shares the server's validateEnquiry rules, plus a client-only past-date guard.
+  function collectErrors(payload: EnquiryPayload): Record<string, string> {
+    const { errors } = validateEnquiry(payload);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (!errors.checkIn && from < today)
+      errors.checkIn = "Check-in can't be in the past.";
+    return errors;
+  }
+
+  function inputClass(field: string) {
+    return `border bg-[#F9F6F0] px-4 py-3 text-sm text-[#1E1C18] focus:outline-none placeholder:text-[#9C8B6E]/50 ${
+      fieldErrors[field]
+        ? "border-[#9C3B2E] focus:border-[#9C3B2E]"
+        : "border-[#DDD6C1] focus:border-[#9C8B6E]"
+    }`;
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setSubmitted(true);
+    if (submitting) return;
+
+    const payload = buildPayload();
+    const errors = collectErrors(payload);
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      setError(null);
+      return;
+    }
+
+    setSubmitting(true);
+    setError(null);
+    setFieldErrors({});
+
+    try {
+      const res = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        if (data.errors && typeof data.errors === "object") {
+          setFieldErrors(data.errors);
+        } else {
+          setError(
+            typeof data.error === "string"
+              ? data.error
+              : "Something went wrong. Please try again."
+          );
+        }
+        return;
+      }
+
+      clearCart();
+      setSubmitted(true);
+    } catch {
+      setError("Network error — please check your connection and try again.");
+    } finally {
+      setSubmitting(false);
+    }
   }
+
+  const hasBundle = items.some((i) => i.type === "bundle");
+  const isFriToSun = from.getDay() === 5 && nights === 2;
+  const showWeekendHint = hasBundle && !isFriToSun;
 
   if (submitted) {
     return (
@@ -77,23 +178,44 @@ export default function BookingPageClient() {
                 <input
                   type="date"
                   value={toDateInput(from)}
+                  min={toDateInput(new Date())}
                   onChange={(e) => handleDateChange("from", e.target.value)}
-                  className="border border-[#DDD6C1] bg-[#F9F6F0] px-4 py-3 text-sm text-[#1E1C18] focus:outline-none focus:border-[#9C8B6E]"
+                  aria-invalid={!!fieldErrors.checkIn}
+                  aria-describedby={fieldErrors.checkIn ? "checkin-error" : undefined}
+                  className={inputClass("checkIn")}
                 />
+                {fieldErrors.checkIn && (
+                  <span id="checkin-error" className="text-xs text-[#9C3B2E]">
+                    {fieldErrors.checkIn}
+                  </span>
+                )}
               </label>
               <label className="flex flex-col gap-1.5">
                 <span className="text-xs text-[#5C5850]">Check-out</span>
                 <input
                   type="date"
                   value={toDateInput(to)}
+                  min={toDateInput(from)}
                   onChange={(e) => handleDateChange("to", e.target.value)}
-                  className="border border-[#DDD6C1] bg-[#F9F6F0] px-4 py-3 text-sm text-[#1E1C18] focus:outline-none focus:border-[#9C8B6E]"
+                  aria-invalid={!!fieldErrors.checkOut}
+                  aria-describedby={fieldErrors.checkOut ? "checkout-error" : undefined}
+                  className={inputClass("checkOut")}
                 />
+                {fieldErrors.checkOut && (
+                  <span id="checkout-error" className="text-xs text-[#9C3B2E]">
+                    {fieldErrors.checkOut}
+                  </span>
+                )}
               </label>
             </div>
             <p className="text-xs text-[#9C8B6E] mt-2">
               {nights} night{nights !== 1 ? "s" : ""} · {nights} 晚
             </p>
+            {showWeekendHint && (
+              <p className="text-xs text-[#9C8B6E] mt-1">
+                Bundles are priced per weekend (Fri–Sun) · 套裝以週末計價
+              </p>
+            )}
           </section>
 
           {/* Enquiry form */}
@@ -101,38 +223,50 @@ export default function BookingPageClient() {
             <h2 className="text-xs font-semibold tracking-widest uppercase text-[#5C5850] mb-5">
               Your Details 聯絡資訊
             </h2>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <label className="flex flex-col gap-1.5">
                   <span className="text-xs text-[#5C5850]">Full Name 姓名</span>
                   <input
-                    required
                     value={form.name}
-                    onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                    onChange={(e) => updateForm("name", e.target.value)}
                     placeholder="Your name"
-                    className="border border-[#DDD6C1] bg-[#F9F6F0] px-4 py-3 text-sm text-[#1E1C18] focus:outline-none focus:border-[#9C8B6E] placeholder:text-[#9C8B6E]/50"
+                    aria-invalid={!!fieldErrors.name}
+                    aria-describedby={fieldErrors.name ? "name-error" : undefined}
+                    className={inputClass("name")}
                   />
+                  {fieldErrors.name && (
+                    <span id="name-error" className="text-xs text-[#9C3B2E]">
+                      {fieldErrors.name}
+                    </span>
+                  )}
                 </label>
                 <label className="flex flex-col gap-1.5">
                   <span className="text-xs text-[#5C5850]">Phone 電話</span>
                   <input
                     value={form.phone}
-                    onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+                    onChange={(e) => updateForm("phone", e.target.value)}
                     placeholder="0912 345 678"
-                    className="border border-[#DDD6C1] bg-[#F9F6F0] px-4 py-3 text-sm text-[#1E1C18] focus:outline-none focus:border-[#9C8B6E] placeholder:text-[#9C8B6E]/50"
+                    className={inputClass("phone")}
                   />
                 </label>
               </div>
               <label className="flex flex-col gap-1.5">
                 <span className="text-xs text-[#5C5850]">Email</span>
                 <input
-                  required
                   type="email"
                   value={form.email}
-                  onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                  onChange={(e) => updateForm("email", e.target.value)}
                   placeholder="you@example.com"
-                  className="border border-[#DDD6C1] bg-[#F9F6F0] px-4 py-3 text-sm text-[#1E1C18] focus:outline-none focus:border-[#9C8B6E] placeholder:text-[#9C8B6E]/50"
+                  aria-invalid={!!fieldErrors.email}
+                  aria-describedby={fieldErrors.email ? "email-error" : undefined}
+                  className={inputClass("email")}
                 />
+                {fieldErrors.email && (
+                  <span id="email-error" className="text-xs text-[#9C3B2E]">
+                    {fieldErrors.email}
+                  </span>
+                )}
               </label>
               <label className="flex flex-col gap-1.5">
                 <span className="text-xs text-[#5C5850]">
@@ -141,18 +275,24 @@ export default function BookingPageClient() {
                 <textarea
                   rows={3}
                   value={form.notes}
-                  onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
+                  onChange={(e) => updateForm("notes", e.target.value)}
                   placeholder="Campsite name, address, or any special requests"
-                  className="border border-[#DDD6C1] bg-[#F9F6F0] px-4 py-3 text-sm text-[#1E1C18] focus:outline-none focus:border-[#9C8B6E] placeholder:text-[#9C8B6E]/50 resize-none"
+                  className={`${inputClass("notes")} resize-none`}
                 />
               </label>
 
+              {(fieldErrors.items || error) && (
+                <p role="alert" className="text-sm text-[#9C3B2E]">
+                  {fieldErrors.items || error}
+                </p>
+              )}
+
               <button
                 type="submit"
-                disabled={items.length === 0}
+                disabled={items.length === 0 || submitting}
                 className="mt-2 px-6 py-4 bg-[#1E1C18] text-[#F9F6F0] text-sm tracking-wide hover:bg-[#9C8B6E] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                Submit Enquiry 送出預訂
+                {submitting ? "Sending… 送出中" : "Submit Enquiry 送出預訂"}
               </button>
             </form>
           </section>

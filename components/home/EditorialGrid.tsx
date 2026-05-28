@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { formatTWD } from "@/lib/pricing";
 import type { GearItem } from "@/types/gear";
@@ -46,10 +47,12 @@ export default function EditorialGrid({ items }: { items: GearItem[] }) {
                     tall ? "aspect-[3/4]" : "aspect-square"
                   }`}
                 >
-                  <img
+                  <Image
                     src={item.images[0]}
                     alt={item.name}
-                    className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
+                    fill
+                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                    className="object-cover group-hover:scale-[1.04] transition-transform duration-500"
                   />
                   <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-[#1E1C18]/30 to-transparent" />
                 </div>

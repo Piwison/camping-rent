@@ -13,6 +13,18 @@ export function calcCartTotal(items: BookingItem[]): number {
   return items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 }
 
+// Booking total honouring the rental rules: bundles are a flat weekend price,
+// individual items are charged per night.
+export function calcBookingTotal(items: BookingItem[], nights: number): number {
+  return items.reduce((sum, item) => {
+    const lineTotal =
+      item.type === "bundle"
+        ? item.price * item.quantity
+        : calcItemTotal(item.price, nights, item.quantity);
+    return sum + lineTotal;
+  }, 0);
+}
+
 export function formatTWD(amount: number): string {
   return `NT$${amount.toLocaleString("en-US")}`;
 }
