@@ -5,28 +5,33 @@ import * as data from "./gear";
 // local dev and tests when Supabase is not configured (ADR-0008). Async to
 // match the store interface; the data is synchronous underneath.
 
+// Public reads hide gear the Vendor has marked unavailable; absent = available.
+const isAvailable = (x: { available?: boolean }) => x.available !== false;
+
 export async function listItems(): Promise<GearItem[]> {
-  return [...data.listItems()];
+  return data.listItems().filter(isAvailable);
 }
 
 export async function listBundles(): Promise<GearBundle[]> {
-  return [...data.listBundles()];
+  return data.listBundles().filter(isAvailable);
 }
 
 export async function featuredItems(): Promise<GearItem[]> {
-  return data.featuredItems();
+  return data.featuredItems().filter(isAvailable);
 }
 
 export async function featuredBundles(): Promise<GearBundle[]> {
-  return data.featuredBundles();
+  return data.featuredBundles().filter(isAvailable);
 }
 
 export async function getItemBySlug(slug: string): Promise<GearItem | undefined> {
-  return data.getItemBySlug(slug);
+  const item = data.getItemBySlug(slug);
+  return item && isAvailable(item) ? item : undefined;
 }
 
 export async function getBundleBySlug(slug: string): Promise<GearBundle | undefined> {
-  return data.getBundleBySlug(slug);
+  const bundle = data.getBundleBySlug(slug);
+  return bundle && isAvailable(bundle) ? bundle : undefined;
 }
 
 export async function getBundleItems(bundle: GearBundle): Promise<GearItem[]> {

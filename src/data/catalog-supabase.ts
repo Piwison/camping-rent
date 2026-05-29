@@ -22,14 +22,14 @@ async function hydrateBundle(db: SupabaseClient, row: BundleRow): Promise<GearBu
 
 export async function listItems(): Promise<GearItem[]> {
   const db = getSupabase();
-  const { data, error } = await db.from("items").select("*").order("id");
+  const { data, error } = await db.from("items").select("*").eq("available", true).order("id");
   if (error) throw error;
   return (data as ItemRow[]).map(rowToItem);
 }
 
 export async function listBundles(): Promise<GearBundle[]> {
   const db = getSupabase();
-  const { data, error } = await db.from("bundles").select("*").order("id");
+  const { data, error } = await db.from("bundles").select("*").eq("available", true).order("id");
   if (error) throw error;
   return Promise.all((data as BundleRow[]).map((row) => hydrateBundle(db, row)));
 }
@@ -44,14 +44,24 @@ export async function featuredBundles(): Promise<GearBundle[]> {
 
 export async function getItemBySlug(slug: string): Promise<GearItem | undefined> {
   const db = getSupabase();
-  const { data, error } = await db.from("items").select("*").eq("slug", slug).maybeSingle();
+  const { data, error } = await db
+    .from("items")
+    .select("*")
+    .eq("slug", slug)
+    .eq("available", true)
+    .maybeSingle();
   if (error) throw error;
   return data ? rowToItem(data as ItemRow) : undefined;
 }
 
 export async function getBundleBySlug(slug: string): Promise<GearBundle | undefined> {
   const db = getSupabase();
-  const { data, error } = await db.from("bundles").select("*").eq("slug", slug).maybeSingle();
+  const { data, error } = await db
+    .from("bundles")
+    .select("*")
+    .eq("slug", slug)
+    .eq("available", true)
+    .maybeSingle();
   if (error) throw error;
   return data ? hydrateBundle(db, data as BundleRow) : undefined;
 }
@@ -74,8 +84,8 @@ export async function getBundleItems(bundle: GearBundle): Promise<GearItem[]> {
 export async function allCatalogSlugs(): Promise<string[]> {
   const db = getSupabase();
   const [items, bundles] = await Promise.all([
-    db.from("items").select("slug"),
-    db.from("bundles").select("slug"),
+    db.from("items").select("slug").eq("available", true),
+    db.from("bundles").select("slug").eq("available", true),
   ]);
   if (items.error) throw items.error;
   if (bundles.error) throw bundles.error;
