@@ -18,6 +18,7 @@ export interface GearItem {
   images: string[];
   specs: { label: string; value: string }[];
   featured?: boolean;
+  available?: boolean; // Vendor availability toggle; absent = available
 }
 
 export interface GearBundle {
@@ -33,6 +34,7 @@ export interface GearBundle {
   originalPrice: number; // sum of individual daily prices × 2 nights
   images: string[];
   featured?: boolean;
+  available?: boolean; // Vendor availability toggle; absent = available
 }
 
 export interface BookingItem {
