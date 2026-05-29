@@ -4,7 +4,7 @@
 //
 //   SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... npm run seed
 //
-// Run the schema first: supabase/migrations/0001_init.sql
+// Run the schema first: supabase/migrations/20260529120000_init.sql
 
 import { listItems, listBundles } from "../src/data/gear";
 import { getSupabase } from "../src/lib/supabase";

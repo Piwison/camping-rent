@@ -1,0 +1,7 @@
+# Supabase project config. Migrations in supabase/migrations are deployed by
+# the GitHub integration when this branch merges to the production branch.
+project_id = "camping-rent"
+
+[db]
+# Postgres major version of the linked project.
+major_version = 15
