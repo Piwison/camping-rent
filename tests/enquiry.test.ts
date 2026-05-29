@@ -3,7 +3,11 @@ import {
   validateEnquiry,
   formatEnquiryItems,
   toEnquiryItems,
+  rowToEnquiry,
+  enquiryToInsertRow,
+  isEnquiryStatus,
   type EnquiryPayload,
+  type EnquiryRow,
 } from "@/lib/enquiry";
 import type { BookingItem } from "@/types/gear";
 
@@ -79,5 +83,52 @@ describe("formatEnquiryItems", () => {
     expect(formatEnquiryItems(valid.items)).toBe(
       "Canvas Bell Tent 4m ×1, Camp Set (bundle) ×1"
     );
+  });
+});
+
+describe("enquiry persistence mapping", () => {
+  it("maps a payload to an insert row (camelCase → snake_case, defaults nulls)", () => {
+    const row = enquiryToInsertRow({ ...valid, phone: undefined, notes: undefined });
+    expect(row).toMatchObject({
+      name: "Mei Lin",
+      email: "mei@example.com",
+      phone: null,
+      notes: null,
+      check_in: "2026-06-05",
+      check_out: "2026-06-07",
+      nights: 2,
+      total: 4800,
+    });
+    expect(row.items).toHaveLength(2);
+  });
+
+  it("maps a stored row back to an EnquiryRecord", () => {
+    const dbRow: EnquiryRow = {
+      id: "abc-123",
+      name: "Mei Lin",
+      email: "mei@example.com",
+      phone: null,
+      notes: null,
+      check_in: "2026-06-05",
+      check_out: "2026-06-07",
+      nights: 2,
+      total: 4800,
+      items: valid.items,
+      status: "confirmed",
+      created_at: "2026-05-29T10:00:00Z",
+    };
+    const record = rowToEnquiry(dbRow);
+    expect(record.checkIn).toBe("2026-06-05");
+    expect(record.phone).toBeUndefined();
+    expect(record.status).toBe("confirmed");
+    expect(record.createdAt).toBe("2026-05-29T10:00:00Z");
+  });
+});
+
+describe("isEnquiryStatus", () => {
+  it("accepts the four workflow statuses and rejects others", () => {
+    expect(isEnquiryStatus("new")).toBe(true);
+    expect(isEnquiryStatus("fulfilled")).toBe(true);
+    expect(isEnquiryStatus("archived")).toBe(false);
   });
 });

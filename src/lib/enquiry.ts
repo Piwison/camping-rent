@@ -57,3 +57,66 @@ export function formatEnquiryItems(items: EnquiryItem[]): string {
     .map((i) => `${i.name}${i.type === "bundle" ? " (bundle)" : ""} ×${i.quantity}`)
     .join(", ");
 }
+
+// The Vendor's offline-confirmation workflow (ADR-0007).
+export const ENQUIRY_STATUSES = ["new", "confirmed", "fulfilled", "cancelled"] as const;
+export type EnquiryStatus = (typeof ENQUIRY_STATUSES)[number];
+
+export function isEnquiryStatus(s: string): s is EnquiryStatus {
+  return (ENQUIRY_STATUSES as readonly string[]).includes(s);
+}
+
+// A stored Enquiry — the submitted payload plus its inbox metadata.
+export interface EnquiryRecord extends EnquiryPayload {
+  id: string;
+  status: EnquiryStatus;
+  createdAt: string;
+}
+
+// Postgres row shape (snake_case) for the enquiries table.
+export interface EnquiryRow {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  notes: string | null;
+  check_in: string;
+  check_out: string;
+  nights: number;
+  total: number;
+  items: EnquiryItem[];
+  status: EnquiryStatus;
+  created_at: string;
+}
+
+export function rowToEnquiry(r: EnquiryRow): EnquiryRecord {
+  return {
+    id: r.id,
+    name: r.name,
+    email: r.email,
+    phone: r.phone ?? undefined,
+    notes: r.notes ?? undefined,
+    checkIn: r.check_in,
+    checkOut: r.check_out,
+    nights: r.nights,
+    total: r.total,
+    items: r.items,
+    status: r.status,
+    createdAt: r.created_at,
+  };
+}
+
+// Payload → insert row (id/status/created_at are defaulted by Postgres).
+export function enquiryToInsertRow(p: EnquiryPayload) {
+  return {
+    name: p.name,
+    email: p.email,
+    phone: p.phone ?? null,
+    notes: p.notes ?? null,
+    check_in: p.checkIn,
+    check_out: p.checkOut,
+    nights: p.nights,
+    total: p.total,
+    items: p.items,
+  };
+}
