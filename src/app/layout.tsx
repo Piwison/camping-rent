@@ -16,9 +16,6 @@ const dmSans = DM_Sans({
   display: "swap",
   variable: "--font-dm-sans",
 });
-import SiteHeader from "@/components/layout/SiteHeader";
-import SiteFooter from "@/components/layout/SiteFooter";
-import { BookingProvider } from "@/components/booking/BookingContext";
 import RouteAnalytics from "@/components/analytics/RouteAnalytics";
 import { siteConfig } from "@/lib/site";
 
@@ -71,13 +68,7 @@ export default function RootLayout({
           Skip to content
         </a>
         <RouteAnalytics />
-        <BookingProvider>
-          <SiteHeader />
-          <main id="main-content" tabIndex={-1}>
-            {children}
-          </main>
-          <SiteFooter />
-        </BookingProvider>
+        {children}
       </body>
     </html>
   );

@@ -15,7 +15,9 @@ export default async function AdminDashboardLayout({
   return (
     <div className="min-h-[100dvh] bg-[#F9F6F0]">
       <VendorTopbar email={vendor.email} />
-      <main className="max-w-6xl mx-auto px-6 py-10">{children}</main>
+      <main id="main-content" tabIndex={-1} className="max-w-6xl mx-auto px-6 py-10">
+        {children}
+      </main>
     </div>
   );
 }
