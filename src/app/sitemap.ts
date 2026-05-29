@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
-import { allCatalogSlugs } from "@/data/gear";
+import { allCatalogSlugs } from "@/data/catalog";
 import { siteConfig } from "@/lib/site";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -17,7 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: r.priority,
   }));
 
-  const detailRoutes: MetadataRoute.Sitemap = allCatalogSlugs().map((slug) => ({
+  const detailRoutes: MetadataRoute.Sitemap = (await allCatalogSlugs()).map((slug) => ({
     url: `${siteConfig.url}/gear/${slug}`,
     lastModified: now,
     changeFrequency: "monthly",

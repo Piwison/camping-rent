@@ -61,13 +61,20 @@ Make it _feel_ glamping and get it ship-ready for real enquiries.
 
 ## Phase 2 — Vendor Dashboard & Operations
 
-The PRD's explicit Phase 2: let the gear owner manage the catalog without code.
+The PRD's explicit Phase 2 (see issue #3): let the gear owner manage the
+catalog without code. Backed by Supabase (ADR-0006/0007/0008).
 
-- [ ] Admin auth for the vendor
-- [ ] Catalog CRUD — add/edit/remove items & bundles, photo upload
-- [ ] Availability toggles (mark gear in/out of service)
-- [ ] Enquiry management — inbox, status, offline-confirmation workflow
-- [ ] Migrate catalog source of truth from `/data/gear.ts` to a datastore
+- [x] Admin auth for the vendor — Supabase email+password, `/admin` gated by
+      middleware + `requireVendor`
+- [x] Catalog CRUD — add/edit/remove items & bundles (photo upload deferred:
+      image URLs for now, per the post-Phase-2 photography plan)
+- [x] Availability toggles (mark gear in/out of service) — public reads hide
+      unavailable gear
+- [x] Enquiry management — inbox, status (new → confirmed → fulfilled /
+      cancelled), offline-confirmation workflow
+- [x] Migrate catalog source of truth from `/data/gear.ts` to a datastore —
+      Catalog store reads Postgres in production, the in-memory `gear.ts` in
+      dev/tests, behind one async seam (ADR-0008); `npm run seed` loads it
 
 ## Phase 3 — Real-time & Transactions
 

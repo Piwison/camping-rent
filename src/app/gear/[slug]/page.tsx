@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getItemBySlug, getBundleBySlug, getBundleItems, allCatalogSlugs } from "@/data/gear";
+import { getItemBySlug, getBundleBySlug, getBundleItems, allCatalogSlugs } from "@/data/catalog";
 import GearDetailClient from "@/components/gear-detail/GearDetailClient";
 import BundleDetailClient from "@/components/gear-detail/BundleDetailClient";
 import { pageMeta } from "@/lib/site";
 
 export async function generateStaticParams() {
-  return allCatalogSlugs().map((slug) => ({ slug }));
+  return (await allCatalogSlugs()).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -15,7 +15,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const entity = getItemBySlug(slug) ?? getBundleBySlug(slug);
+  const entity = (await getItemBySlug(slug)) ?? (await getBundleBySlug(slug));
   if (!entity) return {};
 
   return pageMeta({
@@ -33,12 +33,12 @@ export default async function GearDetailPage({
 }) {
   const { slug } = await params;
 
-  const item = getItemBySlug(slug);
+  const item = await getItemBySlug(slug);
   if (item) return <GearDetailClient item={item} />;
 
-  const bundle = getBundleBySlug(slug);
+  const bundle = await getBundleBySlug(slug);
   if (bundle) {
-    const bundleItems = getBundleItems(bundle);
+    const bundleItems = await getBundleItems(bundle);
     return <BundleDetailClient bundle={bundle} items={bundleItems} />;
   }
 
