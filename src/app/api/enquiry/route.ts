@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { validateEnquiry, type EnquiryPayload } from "@/lib/enquiry";
 import { deliverEnquiry } from "@/lib/enquiry-sink";
+import { getCustomer } from "@/lib/customer-session";
 
 export async function POST(req: Request) {
   let payload: Partial<EnquiryPayload>;
@@ -15,7 +16,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ errors }, { status: 400 });
   }
 
-  const result = await deliverEnquiry(payload as EnquiryPayload);
+  // Attach the signed-in Customer (if any) so the booking shows in their
+  // history; guests submit with no user_id.
+  const customer = await getCustomer();
+  const result = await deliverEnquiry(payload as EnquiryPayload, customer?.id);
   if (result.status === "error") {
     return NextResponse.json({ error: result.message }, { status: 502 });
   }

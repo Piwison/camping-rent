@@ -55,6 +55,10 @@ _Avoid_: request, lead, message, form.
 The gear owner who fulfils Bookings and manages the **Catalog**.
 _Avoid_: admin, seller, merchant, supplier.
 
+**Account**:
+A **Weekend Escapist**'s saved identity (email + password). Signing in links new **Bookings** to them so they can see their history; booking as a guest stays possible. Anyone signed in who is not the **Vendor** holds an Account.
+_Avoid_: login, profile, membership.
+
 ### Availability
 
 **Stock**:

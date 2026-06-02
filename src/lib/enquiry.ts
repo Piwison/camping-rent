@@ -109,7 +109,8 @@ export function rowToEnquiry(r: EnquiryRow): EnquiryRecord {
 }
 
 // Payload → insert row (id/status/created_at are defaulted by Postgres).
-export function enquiryToInsertRow(p: EnquiryPayload) {
+// `userId` links the Enquiry to the signed-in Customer who placed it, if any.
+export function enquiryToInsertRow(p: EnquiryPayload, userId?: string | null) {
   return {
     name: p.name,
     email: p.email,
@@ -120,5 +121,6 @@ export function enquiryToInsertRow(p: EnquiryPayload) {
     nights: p.nights,
     total: p.total,
     items: p.items,
+    user_id: userId ?? null,
   };
 }

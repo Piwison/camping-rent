@@ -1,9 +1,12 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { isProtectedAdminPath } from "@/lib/admin-paths";
+import { isProtectedAccountPath } from "@/lib/account-paths";
 
-// Refreshes the Vendor session cookie on each admin request and redirects
-// unauthenticated access to protected /admin paths to the login page.
+// Refreshes the Supabase session cookie on each /admin and /account request and
+// redirects unauthenticated access to the matching login page. Role separation
+// (is this user actually the Vendor?) happens in the server guards; the
+// middleware only checks that *someone* is signed in.
 export async function middleware(request: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -30,9 +33,15 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user && isProtectedAdminPath(request.nextUrl.pathname)) {
+  const { pathname } = request.nextUrl;
+  if (!user && isProtectedAdminPath(pathname)) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = "/admin/login";
+    return NextResponse.redirect(loginUrl);
+  }
+  if (!user && isProtectedAccountPath(pathname)) {
+    const loginUrl = request.nextUrl.clone();
+    loginUrl.pathname = "/account/login";
     return NextResponse.redirect(loginUrl);
   }
 
@@ -40,5 +49,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/account/:path*"],
 };

@@ -21,7 +21,8 @@ export type EnquiryResult =
 // Without a datastore the Enquiry is logged and reported `skipped`, so the
 // booking flow stays usable in local dev without credentials.
 export async function deliverEnquiry(
-  payload: EnquiryPayload
+  payload: EnquiryPayload,
+  userId?: string | null
 ): Promise<EnquiryResult> {
   if (!isSupabaseConfigured()) {
     console.info("[enquiry] Supabase not configured — logging enquiry:", {
@@ -53,7 +54,7 @@ export async function deliverEnquiry(
       return { status: "unavailable", items: names };
     }
 
-    const enquiryId = await insertEnquiry(payload);
+    const enquiryId = await insertEnquiry(payload, userId);
     await createReservations(enquiryId, lines, range);
     return { status: "sent" };
   } catch (err) {

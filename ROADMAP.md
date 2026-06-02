@@ -87,7 +87,10 @@ Remove the manual offline loop.
       Weekend strip (ISR). Holds follow the Enquiry: confirm → held, cancel →
       released (ADR-0009).
 - [ ] Online payment + deposits (TWD) — via ECPay (綠界)
-- [ ] Customer accounts & booking history
+- [x] Customer accounts & booking history — Customers share Supabase Auth; a
+      signed-in **Account** links its Bookings via `user_id` and sees them at
+      `/account`. The Vendor is gated by the `VENDOR_EMAILS` allowlist so a
+      Customer can't reach `/admin` (ADR-0010).
 - [ ] Automated booking confirmation + reminders
 
 ## Phase 4 — Growth & Retention

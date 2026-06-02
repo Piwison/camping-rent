@@ -8,6 +8,7 @@ const navLinks = [
   { href: "/gear", label: "Gear", chinese: "裝備" },
   { href: "/booking", label: "Book", chinese: "預訂" },
   { href: "/about", label: "About", chinese: "關於" },
+  { href: "/account", label: "Account", chinese: "帳戶" },
 ];
 
 export default function SiteHeader() {
