@@ -16,6 +16,7 @@ export interface ItemRow {
   specs: { label: string; value: string }[];
   featured: boolean;
   available: boolean;
+  stock?: number;
 }
 
 export interface BundleRow {
@@ -47,6 +48,7 @@ export function rowToItem(r: ItemRow): GearItem {
     specs: r.specs ?? [],
     featured: r.featured,
     available: r.available,
+    stock: r.stock ?? 1,
   };
 }
 

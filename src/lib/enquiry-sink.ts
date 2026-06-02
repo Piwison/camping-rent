@@ -3,16 +3,23 @@ import type { EnquiryPayload } from "./enquiry";
 import { formatEnquiryItems } from "./enquiry";
 import { isSupabaseConfigured } from "./supabase";
 import { insertEnquiry } from "./enquiry-store";
+import { expandReservationLines } from "./booking-reservations";
+import { availabilityFor } from "./availability-service";
+import { createReservations } from "./reservation-store";
+import { getItemById } from "@/data/catalog";
 
 export type EnquiryResult =
   | { status: "sent" }
   | { status: "skipped" } // no datastore configured — logged for local dev
+  | { status: "unavailable"; items: string[] } // gear short for those dates
   | { status: "error"; message: string };
 
-// The Enquiry sink seam: where a submitted Enquiry goes. The adapter is now
-// Postgres (ADR-0007, superseding ADR-0003). Without a datastore configured the
-// Enquiry is logged and reported `skipped`, so the booking flow stays usable in
-// local dev without credentials.
+// The Enquiry sink seam: where a submitted Enquiry goes. With a datastore
+// (ADR-0007) it now also enforces real-time availability (ADR-0009) — the
+// Booking is rejected if any gear is short for the requested Weekend, otherwise
+// it lands as an Enquiry with `held` reservations against the Vendor's stock.
+// Without a datastore the Enquiry is logged and reported `skipped`, so the
+// booking flow stays usable in local dev without credentials.
 export async function deliverEnquiry(
   payload: EnquiryPayload
 ): Promise<EnquiryResult> {
@@ -29,7 +36,25 @@ export async function deliverEnquiry(
   }
 
   try {
-    await insertEnquiry(payload);
+    const range = { start: payload.checkIn, end: payload.checkOut };
+    const lines = await expandReservationLines(payload.items);
+    const availability = await availabilityFor(
+      lines.map((l) => l.itemId),
+      range
+    );
+
+    const shortIds = lines
+      .filter((l) => (availability.get(l.itemId)?.available ?? 0) < l.quantity)
+      .map((l) => l.itemId);
+    if (shortIds.length > 0) {
+      const names = await Promise.all(
+        shortIds.map(async (id) => (await getItemById(id))?.name ?? id)
+      );
+      return { status: "unavailable", items: names };
+    }
+
+    const enquiryId = await insertEnquiry(payload);
+    await createReservations(enquiryId, lines, range);
     return { status: "sent" };
   } catch (err) {
     console.error("[enquiry] Failed to store enquiry", err);

@@ -44,8 +44,8 @@ _Avoid_: level, grade, plan.
 The standard rental period — Friday check-in to Sunday check-out, 2 nights. The default date selection in the **Booking** flow. **Bundle** prices are expressed per Weekend.
 
 **Booking**:
-A customer's rental enquiry capturing trip dates, selected **Items**/**Bundles**, and contact details. A Booking ends when the customer submits the **Enquiry** — there is no payment in the flow.
-_Avoid_: order, reservation, cart, checkout.
+A customer's rental enquiry capturing trip dates, selected **Items**/**Bundles**, and contact details. A Booking ends when the customer submits the **Enquiry** — there is no payment in the flow. A Booking *produces* **Reservations**, but is not itself one.
+_Avoid_: order, cart, checkout (and don't use **Reservation** as a synonym — that's the per-Item stock hold).
 
 **Enquiry**:
 The submission that completes a **Booking**: the captured trip details sent to the gear owner, who confirms offline. Pricing is honoured by the rule that **Bundles** are a flat Weekend price while **Items** are charged per night.
@@ -54,6 +54,20 @@ _Avoid_: request, lead, message, form.
 **Vendor**:
 The gear owner who fulfils Bookings and manages the **Catalog**.
 _Avoid_: admin, seller, merchant, supplier.
+
+### Availability
+
+**Stock**:
+How many units of an **Item** the **Vendor** owns and can rent at once. Drives **Availability**. The Vendor sets it per Item in the dashboard.
+_Avoid_: inventory, quantity on hand.
+
+**Reservation**:
+A hold on a number of units of an **Item** for a specific **Weekend**, created when a **Booking** is submitted. Distinct from the **Booking** itself: one Booking produces a Reservation for each Item it needs (a **Bundle** reserves each of its component Items). A Reservation is `held` while the Enquiry is pending, `confirmed` when the Vendor confirms, or `released` when cancelled.
+_Avoid_: hold, lock, allocation.
+
+**Availability**:
+How many units of an **Item** — or complete sets of a **Bundle** — are free for a given **Weekend**: **Stock** minus the units already held by overlapping **Reservations**. A Bundle's availability is limited by its scarcest component Item.
+_Avoid_: vacancy, openings, capacity.
 
 ### Money
 

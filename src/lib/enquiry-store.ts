@@ -11,10 +11,15 @@ import {
 // Postgres persistence for Enquiries (ADR-0007). The insert backs the
 // deliverEnquiry sink; the reads/updates back the Vendor inbox.
 
-export async function insertEnquiry(payload: EnquiryPayload): Promise<void> {
+export async function insertEnquiry(payload: EnquiryPayload): Promise<string> {
   const db = getSupabase();
-  const { error } = await db.from("enquiries").insert(enquiryToInsertRow(payload));
+  const { data, error } = await db
+    .from("enquiries")
+    .insert(enquiryToInsertRow(payload))
+    .select("id")
+    .single();
   if (error) throw error;
+  return data.id as string;
 }
 
 export async function listEnquiries(): Promise<EnquiryRecord[]> {

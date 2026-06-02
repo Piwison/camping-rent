@@ -20,6 +20,7 @@ const item: ItemInput = {
   specs: [],
   featured: false,
   available: true,
+  stock: 5,
 };
 
 const bundle: BundleInput = {
@@ -57,6 +58,11 @@ describe("validateItemInput", () => {
     expect(errors).toHaveProperty("nameChinese");
     expect(errors).toHaveProperty("category");
     expect(errors).toHaveProperty("dailyPrice");
+  });
+
+  it("rejects a fractional or negative stock", () => {
+    expect(validateItemInput({ ...item, stock: -1 }).errors).toHaveProperty("stock");
+    expect(validateItemInput({ ...item, stock: 2.5 }).errors).toHaveProperty("stock");
   });
 });
 

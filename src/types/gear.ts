@@ -19,6 +19,7 @@ export interface GearItem {
   specs: { label: string; value: string }[];
   featured?: boolean;
   available?: boolean; // Vendor availability toggle; absent = available
+  stock?: number; // units the Vendor owns; drives real-time availability (Phase 3)
 }
 
 export interface GearBundle {

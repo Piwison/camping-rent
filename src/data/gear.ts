@@ -344,6 +344,10 @@ export function getBundleBySlug(slug: string): GearBundle | undefined {
   return bundles.find((b) => b.slug === slug);
 }
 
+export function getBundleById(id: string): GearBundle | undefined {
+  return bundles.find((b) => b.id === id);
+}
+
 export function getBundleItems(bundle: GearBundle): GearItem[] {
   return bundle.itemIds
     .map((id) => getItemById(id))

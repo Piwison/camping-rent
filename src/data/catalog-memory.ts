@@ -29,8 +29,18 @@ export async function getItemBySlug(slug: string): Promise<GearItem | undefined>
   return item && isAvailable(item) ? item : undefined;
 }
 
+export async function getItemById(id: string): Promise<GearItem | undefined> {
+  const item = data.getItemById(id);
+  return item && isAvailable(item) ? item : undefined;
+}
+
 export async function getBundleBySlug(slug: string): Promise<GearBundle | undefined> {
   const bundle = data.getBundleBySlug(slug);
+  return bundle && isAvailable(bundle) ? bundle : undefined;
+}
+
+export async function getBundleById(id: string): Promise<GearBundle | undefined> {
+  const bundle = data.getBundleById(id);
   return bundle && isAvailable(bundle) ? bundle : undefined;
 }
 

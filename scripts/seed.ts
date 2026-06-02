@@ -23,6 +23,9 @@ function toItemRow(i: GearItem) {
     images: i.images,
     specs: i.specs,
     featured: i.featured ?? false,
+    // Default a sensible starting stock so availability has units to work with;
+    // the Vendor tunes per-item counts in the dashboard afterwards.
+    stock: i.stock ?? 5,
   };
 }
 

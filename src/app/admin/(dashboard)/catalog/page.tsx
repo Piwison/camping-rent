@@ -105,6 +105,7 @@ function CatalogTable({
               <p className="text-sm text-[#1E1C18] truncate">{row.name}</p>
               <p className="text-xs text-[#9C8B6E]">
                 <code>{row.id}</code> · {price}
+                {isItems && ` · ${(row as GearItem).stock ?? 1} in stock`}
               </p>
             </div>
             <FlagButton

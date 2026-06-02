@@ -19,6 +19,15 @@ export async function POST(req: Request) {
   if (result.status === "error") {
     return NextResponse.json({ error: result.message }, { status: 502 });
   }
+  if (result.status === "unavailable") {
+    return NextResponse.json(
+      {
+        error: `Some gear is no longer available for those dates: ${result.items.join(", ")}.`,
+        unavailable: result.items,
+      },
+      { status: 409 }
+    );
+  }
 
   return NextResponse.json({ ok: true, delivered: result.status });
 }

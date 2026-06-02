@@ -14,7 +14,9 @@ export interface CatalogReader {
   featuredItems(): Promise<GearItem[]>;
   featuredBundles(): Promise<GearBundle[]>;
   getItemBySlug(slug: string): Promise<GearItem | undefined>;
+  getItemById(id: string): Promise<GearItem | undefined>;
   getBundleBySlug(slug: string): Promise<GearBundle | undefined>;
+  getBundleById(id: string): Promise<GearBundle | undefined>;
   getBundleItems(bundle: GearBundle): Promise<GearItem[]>;
   allCatalogSlugs(): Promise<string[]>;
 }
@@ -29,8 +31,12 @@ export const featuredItems = (): Promise<GearItem[]> => reader().featuredItems()
 export const featuredBundles = (): Promise<GearBundle[]> => reader().featuredBundles();
 export const getItemBySlug = (slug: string): Promise<GearItem | undefined> =>
   reader().getItemBySlug(slug);
+export const getItemById = (id: string): Promise<GearItem | undefined> =>
+  reader().getItemById(id);
 export const getBundleBySlug = (slug: string): Promise<GearBundle | undefined> =>
   reader().getBundleBySlug(slug);
+export const getBundleById = (id: string): Promise<GearBundle | undefined> =>
+  reader().getBundleById(id);
 export const getBundleItems = (bundle: GearBundle): Promise<GearItem[]> =>
   reader().getBundleItems(bundle);
 export const allCatalogSlugs = (): Promise<string[]> => reader().allCatalogSlugs();

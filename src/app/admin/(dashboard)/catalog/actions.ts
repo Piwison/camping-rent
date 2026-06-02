@@ -57,6 +57,7 @@ export async function saveItemAction(_prev: FormState, fd: FormData): Promise<Fo
     specs: parseSpecs(fd.get("specs")),
     featured: fd.get("featured") === "on",
     available: fd.get("available") === "on",
+    stock: Number(fd.get("stock")),
   };
 
   const { valid, errors } = validateItemInput(input);

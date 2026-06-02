@@ -56,6 +56,18 @@ export default function ItemForm({ defaultInput }: { defaultInput?: ItemInput })
           />
           {e.dailyPrice && <span className="text-xs text-[#9C3B2E]">{e.dailyPrice}</span>}
         </label>
+        <label className="flex flex-col gap-1">
+          <span className="text-xs text-[#5C5850]">Stock (units owned)</span>
+          <input
+            name="stock"
+            type="number"
+            min={0}
+            step={1}
+            defaultValue={d?.stock ?? 1}
+            className={field}
+          />
+          {e.stock && <span className="text-xs text-[#9C3B2E]">{e.stock}</span>}
+        </label>
       </div>
 
       <label className="flex flex-col gap-1">

@@ -1,16 +1,18 @@
 import type { BookingItem } from "@/types/gear";
 
 export interface EnquiryItem {
+  id: string; // item or bundle id — needed to reserve stock (Phase 3)
   name: string;
   type: "item" | "bundle";
   quantity: number;
   unitPrice: number;
 }
 
-// The single translation from a Booking line to an Enquiry line: drops the
-// internal id and renames price to unitPrice for the wire payload.
+// The single translation from a Booking line to an Enquiry line: keeps the id
+// (the reservation step expands bundles by it) and renames price to unitPrice.
 export function toEnquiryItems(items: BookingItem[]): EnquiryItem[] {
   return items.map((i) => ({
+    id: i.id,
     name: i.name,
     type: i.type,
     quantity: i.quantity,

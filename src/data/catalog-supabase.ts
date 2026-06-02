@@ -54,12 +54,36 @@ export async function getItemBySlug(slug: string): Promise<GearItem | undefined>
   return data ? rowToItem(data as ItemRow) : undefined;
 }
 
+export async function getItemById(id: string): Promise<GearItem | undefined> {
+  const db = getSupabase();
+  const { data, error } = await db
+    .from("items")
+    .select("*")
+    .eq("id", id)
+    .eq("available", true)
+    .maybeSingle();
+  if (error) throw error;
+  return data ? rowToItem(data as ItemRow) : undefined;
+}
+
 export async function getBundleBySlug(slug: string): Promise<GearBundle | undefined> {
   const db = getSupabase();
   const { data, error } = await db
     .from("bundles")
     .select("*")
     .eq("slug", slug)
+    .eq("available", true)
+    .maybeSingle();
+  if (error) throw error;
+  return data ? hydrateBundle(db, data as BundleRow) : undefined;
+}
+
+export async function getBundleById(id: string): Promise<GearBundle | undefined> {
+  const db = getSupabase();
+  const { data, error } = await db
+    .from("bundles")
+    .select("*")
+    .eq("id", id)
     .eq("available", true)
     .maybeSingle();
   if (error) throw error;

@@ -14,6 +14,7 @@ const itemRow: ItemRow = {
   specs: [{ label: "Diameter", value: "4 m" }],
   featured: true,
   available: true,
+  stock: 3,
 };
 
 const bundleRow: BundleRow = {
@@ -46,7 +47,14 @@ describe("rowToItem", () => {
       specs: [{ label: "Diameter", value: "4 m" }],
       featured: true,
       available: true,
+      stock: 3,
     });
+  });
+
+  it("defaults stock to 1 when the row omits it", () => {
+    const { stock, ...noStock } = itemRow;
+    void stock;
+    expect(rowToItem(noStock).stock).toBe(1);
   });
 });
 

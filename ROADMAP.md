@@ -80,8 +80,13 @@ catalog without code. Backed by Supabase (ADR-0006/0007/0008).
 
 Remove the manual offline loop.
 
-- [ ] Real-time availability calendar (per item / bundle, per weekend)
-- [ ] Online payment + deposits (TWD)
+- [x] Real-time availability calendar (per item / bundle, per weekend) — Items
+      carry a **Stock** count; a submitted Booking places **Reservations** and
+      the Enquiry is rejected if gear is short for those dates. Availability is
+      pure logic (`src/lib/availability.ts`); the gear detail page shows a
+      Weekend strip (ISR). Holds follow the Enquiry: confirm → held, cancel →
+      released (ADR-0009).
+- [ ] Online payment + deposits (TWD) — via ECPay (綠界)
 - [ ] Customer accounts & booking history
 - [ ] Automated booking confirmation + reminders
 

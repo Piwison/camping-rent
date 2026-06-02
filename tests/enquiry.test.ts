@@ -21,8 +21,8 @@ const valid: EnquiryPayload = {
   nights: 2,
   total: 4800,
   items: [
-    { name: "Canvas Bell Tent 4m", type: "item", quantity: 1, unitPrice: 800 },
-    { name: "Camp Set", type: "bundle", quantity: 1, unitPrice: 3200 },
+    { id: "tent-01", name: "Canvas Bell Tent 4m", type: "item", quantity: 1, unitPrice: 800 },
+    { id: "bundle-standard", name: "Camp Set", type: "bundle", quantity: 1, unitPrice: 3200 },
   ],
 };
 
@@ -68,8 +68,8 @@ describe("toEnquiryItems", () => {
       { type: "bundle", id: "bundle-standard", name: "Camp Set", price: 3200, quantity: 2 },
     ];
     expect(toEnquiryItems(booking)).toEqual([
-      { name: "Canvas Bell Tent 4m", type: "item", quantity: 1, unitPrice: 800 },
-      { name: "Camp Set", type: "bundle", quantity: 2, unitPrice: 3200 },
+      { id: "tent-01", name: "Canvas Bell Tent 4m", type: "item", quantity: 1, unitPrice: 800 },
+      { id: "bundle-standard", name: "Camp Set", type: "bundle", quantity: 2, unitPrice: 3200 },
     ]);
   });
 

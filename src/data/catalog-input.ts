@@ -28,6 +28,7 @@ export interface ItemInput {
   specs: { label: string; value: string }[];
   featured: boolean;
   available: boolean;
+  stock: number;
 }
 
 export interface BundleInput {
@@ -58,6 +59,8 @@ export function validateItemInput(input: ItemInput): ValidationResult {
     errors.category = "Pick a valid category.";
   if (!Number.isFinite(input.dailyPrice) || input.dailyPrice < 0)
     errors.dailyPrice = "Daily price must be zero or more.";
+  if (!Number.isInteger(input.stock) || input.stock < 0)
+    errors.stock = "Stock must be a whole number, zero or more.";
   return { valid: Object.keys(errors).length === 0, errors };
 }
 
@@ -100,6 +103,7 @@ export function itemInputToRow(input: ItemInput): ItemRow {
     specs: input.specs,
     featured: input.featured,
     available: input.available,
+    stock: input.stock,
   };
 }
 
@@ -135,6 +139,7 @@ export function itemToInput(item: GearItem): ItemInput {
     specs: item.specs,
     featured: item.featured ?? false,
     available: item.available ?? true,
+    stock: item.stock ?? 1,
   };
 }
 
