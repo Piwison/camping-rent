@@ -59,3 +59,33 @@ export async function setEnquiryStatus(id: string, status: EnquiryStatus): Promi
   const { error } = await db.from("enquiries").update({ status }).eq("id", id);
   if (error) throw error;
 }
+
+// Confirmed, not-yet-reminded bookings whose trip starts within `withinDays`
+// (and hasn't already started) — the reminder sweep's worklist (ADR-0012).
+export async function listBookingsDueForReminder(
+  withinDays: number,
+  today = new Date()
+): Promise<EnquiryRecord[]> {
+  const db = getSupabase();
+  const from = today.toISOString().slice(0, 10);
+  const until = new Date(today.getTime() + withinDays * 86_400_000).toISOString().slice(0, 10);
+  const { data, error } = await db
+    .from("enquiries")
+    .select("*")
+    .eq("status", "confirmed")
+    .is("reminded_at", null)
+    .gte("check_in", from)
+    .lte("check_in", until)
+    .order("check_in", { ascending: true });
+  if (error) throw error;
+  return (data as EnquiryRow[]).map(rowToEnquiry);
+}
+
+export async function markEnquiryReminded(id: string): Promise<void> {
+  const db = getSupabase();
+  const { error } = await db
+    .from("enquiries")
+    .update({ reminded_at: new Date().toISOString() })
+    .eq("id", id);
+  if (error) throw error;
+}

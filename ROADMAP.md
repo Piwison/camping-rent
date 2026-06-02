@@ -95,7 +95,11 @@ Remove the manual offline loop.
       signed-in **Account** links its Bookings via `user_id` and sees them at
       `/account`. The Vendor is gated by the `VENDOR_EMAILS` allowlist so a
       Customer can't reach `/admin` (ADR-0010).
-- [ ] Automated booking confirmation + reminders
+- [x] Automated booking confirmation + reminders — confirmation to the Customer
+      + alert to the Vendor on submit, a confirmation on Vendor confirm, and a
+      pre-trip reminder via a daily cron sweep. Provider-agnostic notification
+      seam with a Resend adapter; email content is pure and tested; degrades to
+      logging without a key (ADR-0012).
 
 ## Phase 4 — Growth & Retention
 

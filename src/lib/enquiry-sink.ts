@@ -6,6 +6,7 @@ import { insertEnquiry } from "./enquiry-store";
 import { expandReservationLines } from "./booking-reservations";
 import { availabilityFor } from "./availability-service";
 import { createReservations } from "./reservation-store";
+import { notifyEnquiryReceived } from "./notify";
 import { getItemById } from "@/data/catalog";
 
 export type EnquiryResult =
@@ -56,6 +57,14 @@ export async function deliverEnquiry(
 
     const enquiryId = await insertEnquiry(payload, userId);
     await createReservations(enquiryId, lines, range);
+    // Confirmation to the customer + alert to the Vendor (best-effort).
+    await notifyEnquiryReceived({
+      ...payload,
+      id: enquiryId,
+      status: "new",
+      createdAt: new Date().toISOString(),
+      paymentStatus: "unpaid",
+    });
     return { status: "sent", enquiryId };
   } catch (err) {
     console.error("[enquiry] Failed to store enquiry", err);
