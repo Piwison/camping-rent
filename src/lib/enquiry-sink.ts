@@ -9,7 +9,7 @@ import { createReservations } from "./reservation-store";
 import { getItemById } from "@/data/catalog";
 
 export type EnquiryResult =
-  | { status: "sent" }
+  | { status: "sent"; enquiryId: string }
   | { status: "skipped" } // no datastore configured — logged for local dev
   | { status: "unavailable"; items: string[] } // gear short for those dates
   | { status: "error"; message: string };
@@ -56,7 +56,7 @@ export async function deliverEnquiry(
 
     const enquiryId = await insertEnquiry(payload, userId);
     await createReservations(enquiryId, lines, range);
-    return { status: "sent" };
+    return { status: "sent", enquiryId };
   } catch (err) {
     console.error("[enquiry] Failed to store enquiry", err);
     return { status: "error", message: "Failed to store enquiry." };

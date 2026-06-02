@@ -25,6 +25,14 @@ export function formatTWD(amount: number): string {
   return `NT$${amount.toLocaleString("en-US")}`;
 }
 
+// The deposit charged online to secure a Booking (ADR-0011); the balance is
+// settled offline with the Vendor. A whole-TWD share of the total, never more
+// than the total itself.
+export function depositFor(total: number, percent: number): number {
+  const pct = Number.isFinite(percent) ? Math.min(100, Math.max(0, percent)) : 0;
+  return Math.min(total, Math.round((total * pct) / 100));
+}
+
 export function defaultWeekendDates(): { from: Date; to: Date } {
   const today = new Date();
   const day = today.getDay();

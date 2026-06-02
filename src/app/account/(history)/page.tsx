@@ -67,6 +67,9 @@ export default async function BookingHistoryPage() {
               <p className="mt-2 text-sm text-[#5C5850]">{formatEnquiryItems(b.items)}</p>
               <p className="mt-1 text-sm text-[#9C8B6E]">
                 {b.nights} night{b.nights === 1 ? "" : "s"} · {formatTWD(b.total)}
+                {b.paymentStatus === "deposit_paid" && b.depositAmount
+                  ? ` · ${formatTWD(b.depositAmount)} deposit paid`
+                  : ""}
               </p>
             </li>
           ))}

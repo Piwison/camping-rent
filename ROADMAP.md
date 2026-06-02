@@ -86,7 +86,11 @@ Remove the manual offline loop.
       pure logic (`src/lib/availability.ts`); the gear detail page shows a
       Weekend strip (ISR). Holds follow the Enquiry: confirm → held, cancel →
       released (ADR-0009).
-- [ ] Online payment + deposits (TWD) — via ECPay (綠界)
+- [x] Online payment + deposits (TWD) — a deposit (default 30%) secures a
+      Booking via ECPay (綠界); balance still settled offline. Provider-agnostic
+      payment seam with ECPay as the adapter; the `CheckMacValue` hash is pinned
+      by tests; settle happens on ECPay's verified server callback. Falls back to
+      ECPay sandbox without credentials (ADR-0011).
 - [x] Customer accounts & booking history — Customers share Supabase Auth; a
       signed-in **Account** links its Bookings via `user_id` and sees them at
       `/account`. The Vendor is gated by the `VENDOR_EMAILS` allowlist so a

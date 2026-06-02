@@ -4,6 +4,7 @@ import {
   calcItemTotal,
   calcBookingTotal,
   formatTWD,
+  depositFor,
 } from "@/lib/pricing";
 import type { BookingItem } from "@/types/gear";
 
@@ -55,5 +56,17 @@ describe("formatTWD", () => {
   it("formats with NT$ prefix", () => {
     expect(formatTWD(3200)).toBe("NT$3,200");
     expect(formatTWD(1800)).toBe("NT$1,800");
+  });
+});
+
+describe("depositFor", () => {
+  it("takes a whole-TWD percentage of the total, rounded", () => {
+    expect(depositFor(4800, 30)).toBe(1440);
+    expect(depositFor(3333, 30)).toBe(1000); // 999.9 → 1000
+  });
+
+  it("never exceeds the total and clamps the percent", () => {
+    expect(depositFor(1000, 150)).toBe(1000);
+    expect(depositFor(1000, -10)).toBe(0);
   });
 });

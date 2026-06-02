@@ -68,11 +68,17 @@ export function isEnquiryStatus(s: string): s is EnquiryStatus {
   return (ENQUIRY_STATUSES as readonly string[]).includes(s);
 }
 
+// Deposit lifecycle on an Enquiry (ADR-0011).
+export const PAYMENT_STATUSES = ["unpaid", "deposit_paid", "paid", "refunded"] as const;
+export type PaymentStatus = (typeof PAYMENT_STATUSES)[number];
+
 // A stored Enquiry — the submitted payload plus its inbox metadata.
 export interface EnquiryRecord extends EnquiryPayload {
   id: string;
   status: EnquiryStatus;
   createdAt: string;
+  paymentStatus: PaymentStatus;
+  depositAmount?: number;
 }
 
 // Postgres row shape (snake_case) for the enquiries table.
@@ -89,6 +95,8 @@ export interface EnquiryRow {
   items: EnquiryItem[];
   status: EnquiryStatus;
   created_at: string;
+  payment_status?: PaymentStatus;
+  deposit_amount?: number | null;
 }
 
 export function rowToEnquiry(r: EnquiryRow): EnquiryRecord {
@@ -105,6 +113,8 @@ export function rowToEnquiry(r: EnquiryRow): EnquiryRecord {
     items: r.items,
     status: r.status,
     createdAt: r.created_at,
+    paymentStatus: r.payment_status ?? "unpaid",
+    depositAmount: r.deposit_amount ?? undefined,
   };
 }
 

@@ -37,6 +37,14 @@ export default async function EnquiryDetailPage({
         </dd>
         <dt className="text-[#9C8B6E]">Total</dt>
         <dd className="text-[#1E1C18]">{formatTWD(e.total)}</dd>
+        <dt className="text-[#9C8B6E]">Deposit</dt>
+        <dd className="text-[#1E1C18]">
+          {e.paymentStatus === "deposit_paid" && e.depositAmount
+            ? `${formatTWD(e.depositAmount)} paid`
+            : e.depositAmount
+              ? `${formatTWD(e.depositAmount)} — awaiting payment`
+              : "—"}
+        </dd>
         <dt className="text-[#9C8B6E]">Notes</dt>
         <dd className="text-[#1E1C18] whitespace-pre-wrap">{e.notes || "—"}</dd>
       </dl>

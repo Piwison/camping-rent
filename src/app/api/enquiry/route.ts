@@ -33,5 +33,9 @@ export async function POST(req: Request) {
     );
   }
 
-  return NextResponse.json({ ok: true, delivered: result.status });
+  return NextResponse.json({
+    ok: true,
+    delivered: result.status,
+    enquiryId: result.status === "sent" ? result.enquiryId : undefined,
+  });
 }

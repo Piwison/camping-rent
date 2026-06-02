@@ -4,9 +4,12 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Trash, Check } from "@phosphor-icons/react";
 import { useBooking } from "./BookingContext";
-import { formatTWD } from "@/lib/pricing";
+import { formatTWD, depositFor } from "@/lib/pricing";
 import { validateEnquiry, toEnquiryItems, type EnquiryPayload } from "@/lib/enquiry";
 import { track } from "@/lib/analytics";
+
+// Mirrors the server's deposit rule for display; the checkout recomputes it.
+const DEPOSIT_PERCENT = Number(process.env.NEXT_PUBLIC_DEPOSIT_PERCENT ?? "30");
 
 export default function BookingPageClient() {
   const { items, from, to, nights, total, removeItem, clearCart, setDates } =
@@ -16,6 +19,9 @@ export default function BookingPageClient() {
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [form, setForm] = useState({ name: "", email: "", phone: "", notes: "" });
+  // Set on a stored enquiry so the success screen can offer a deposit.
+  const [enquiryId, setEnquiryId] = useState<string | null>(null);
+  const [depositAmount, setDepositAmount] = useState(0);
 
   function toDateInput(d: Date) {
     return d.toISOString().split("T")[0];
@@ -125,6 +131,11 @@ export default function BookingPageClient() {
         name: "enquiry_succeeded",
         delivered: data.delivered === "skipped" ? "skipped" : "sent",
       });
+      // Capture the deposit offer before the cart total is cleared.
+      if (typeof data.enquiryId === "string") {
+        setEnquiryId(data.enquiryId);
+        setDepositAmount(depositFor(payload.total, DEPOSIT_PERCENT));
+      }
       clearCart();
       setSubmitted(true);
     } catch {
@@ -158,6 +169,29 @@ export default function BookingPageClient() {
             Thanks, {form.name}. We&apos;ll confirm your booking within 24 hours.
           </p>
           <p className="text-xs text-[#9C8B6E]">預訂申請已送出，我們將在24小時內確認。</p>
+
+          {enquiryId && depositAmount > 0 && (
+            <form
+              method="post"
+              action="/api/payment/checkout"
+              className="mt-8 border-t border-[#E8E1D1] pt-6"
+            >
+              <input type="hidden" name="enquiryId" value={enquiryId} />
+              <p className="text-sm text-[#5C5850] mb-3">
+                Secure your weekend now with a {DEPOSIT_PERCENT}% deposit. The
+                balance is settled with us on pickup.
+              </p>
+              <button
+                type="submit"
+                className="px-6 py-3 bg-[#1E1C18] text-[#F9F6F0] text-sm tracking-wide hover:bg-[#9C8B6E] transition-colors"
+              >
+                Pay {formatTWD(depositAmount)} deposit
+              </button>
+              <p className="mt-3 text-xs text-[#9C8B6E]">
+                Secured by ECPay 綠界. You can also just wait for our confirmation.
+              </p>
+            </form>
+          )}
         </motion.div>
       </div>
     );
