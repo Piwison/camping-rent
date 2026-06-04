@@ -2,7 +2,9 @@
 // so the storefront looks identical on cutover (PRD #3, ADR-0006). Idempotent —
 // items/bundles are upserted and bundle membership is rebuilt each run.
 //
-//   SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... npm run seed
+//   npm run seed   (loads SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY from
+//                   .env.local via tsx --env-file; a plain tsx run won't pick
+//                   up .env.local the way Next.js does)
 //
 // Run the schema first: supabase/migrations/20260529120000_init.sql
 
