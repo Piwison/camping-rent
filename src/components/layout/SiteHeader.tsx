@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { List, X } from "@phosphor-icons/react";
 
 const navLinks = [
@@ -14,6 +15,7 @@ const navLinks = [
 export default function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -21,10 +23,18 @@ export default function SiteHeader() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // The homepage hero is a dark full-bleed photo, so the transparent header
+  // needs light text while it floats over it. Everywhere else (and once
+  // scrolled onto the ivory page) the header keeps its dark text.
+  const solid = scrolled || menuOpen;
+  const overHero = pathname === "/" && !solid;
+  const primaryText = overHero ? "text-[#F9F6F0]" : "text-[#1E1C18]";
+  const accentText = overHero ? "text-[#D8C9AC]" : "text-[#9C8B6E]";
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
+        solid
           ? "bg-[#F9F6F0]/90 backdrop-blur-md border-b border-[#DDD6C1]"
           : "bg-transparent"
       }`}
@@ -32,10 +42,10 @@ export default function SiteHeader() {
       <div className="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex flex-col leading-none">
-          <span className="text-sm font-semibold tracking-widest uppercase text-[#1E1C18]">
+          <span className={`text-sm font-semibold tracking-widest uppercase transition-colors ${primaryText}`}>
             Basecamp & Co.
           </span>
-          <span className="text-[10px] tracking-wider text-[#9C8B6E]">
+          <span className={`text-[10px] tracking-wider transition-colors ${accentText}`}>
             露營裝備租賃
           </span>
         </Link>
@@ -48,17 +58,21 @@ export default function SiteHeader() {
               href={link.href}
               className="group flex flex-col items-center leading-none"
             >
-              <span className="text-sm tracking-wide text-[#1E1C18] group-hover:text-[#9C8B6E] transition-colors">
+              <span className={`text-sm tracking-wide group-hover:text-[#9C8B6E] transition-colors ${primaryText}`}>
                 {link.label}
               </span>
-              <span className="text-[9px] text-[#9C8B6E] opacity-0 group-hover:opacity-100 transition-opacity">
+              <span className={`text-[9px] opacity-0 group-hover:opacity-100 transition-opacity ${accentText}`}>
                 {link.chinese}
               </span>
             </Link>
           ))}
           <Link
             href="/booking"
-            className="px-4 py-2 bg-[#1E1C18] text-[#F9F6F0] text-sm tracking-wide hover:bg-[#9C8B6E] transition-colors"
+            className={`px-4 py-2 text-sm tracking-wide transition-colors ${
+              overHero
+                ? "bg-white/10 backdrop-blur-sm border border-white/25 text-[#F9F6F0] hover:bg-white/20"
+                : "bg-[#1E1C18] text-[#F9F6F0] hover:bg-[#9C8B6E]"
+            }`}
           >
             Rent Now
           </Link>
@@ -67,7 +81,7 @@ export default function SiteHeader() {
         {/* Mobile menu toggle */}
         <button
           type="button"
-          className="md:hidden text-[#1E1C18]"
+          className={`md:hidden transition-colors ${primaryText}`}
           onClick={() => setMenuOpen((v) => !v)}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
