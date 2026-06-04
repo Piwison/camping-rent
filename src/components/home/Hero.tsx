@@ -14,6 +14,11 @@ import { ArrowRight } from "@phosphor-icons/react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+// Marketing hero photo. Centralised so it's a one-line swap when real
+// photography lands; served via next/image (host allowlisted in next.config).
+const HERO_IMAGE =
+  "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=2400&q=70";
+
 // Staggered entrance for the content block. Adapted from the shadcn animated
 // hero, but typed and using our cubic-bezier ease; reduced-motion is handled at
 // the call site by skipping the initial ("hidden") state.
@@ -75,8 +80,8 @@ export default function Hero() {
           className="absolute inset-[-6%]"
         >
           <Image
-            src="https://picsum.photos/seed/hero-camp/2400/1400"
-            alt="Glamping setup at a Taiwan campsite at golden hour"
+            src={HERO_IMAGE}
+            alt="A lantern-lit glamping tent pitched in the mountains at dusk"
             fill
             priority
             sizes="100vw"
@@ -129,7 +134,7 @@ export default function Hero() {
           >
             <Link
               href="/gear"
-              className="group inline-flex items-center justify-center gap-2 px-7 py-4 bg-[#F9F6F0] text-[#1E1C18] text-sm font-medium tracking-wide shadow-xl shadow-black/20 hover:bg-white transition-colors"
+              className="group btn btn-lg bg-[#F9F6F0] text-[#1E1C18] font-medium shadow-xl shadow-black/20 hover:bg-white"
             >
               Browse Gear
               <ArrowRight
@@ -137,10 +142,7 @@ export default function Hero() {
                 className="group-hover:translate-x-1 transition-transform"
               />
             </Link>
-            <Link
-              href="/gear#bundles"
-              className="inline-flex items-center justify-center gap-2 px-7 py-4 bg-white/10 backdrop-blur-md border border-white/30 text-[#F9F6F0] text-sm tracking-wide hover:bg-white/20 hover:border-white/50 transition-colors"
-            >
+            <Link href="/gear#bundles" className="btn btn-lg btn-glass">
               View Bundles
               <span className="text-[#D8C9AC] text-xs">套裝組合</span>
             </Link>

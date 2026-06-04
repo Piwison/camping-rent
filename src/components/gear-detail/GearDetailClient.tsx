@@ -71,7 +71,7 @@ export default function GearDetailClient({ item }: { item: GearItem }) {
 
         {/* Info */}
         <div>
-          <p className="text-xs tracking-[0.2em] uppercase text-[#9C8B6E] mb-2">
+          <p className="text-xs tracking-[0.2em] uppercase text-[#7A6B54] mb-2">
             {item.nameChinese} · {item.category}
           </p>
           <h1 className="font-serif text-4xl md:text-5xl tracking-tight text-[#1E1C18] mb-4">
@@ -90,7 +90,7 @@ export default function GearDetailClient({ item }: { item: GearItem }) {
               <span className="text-sm text-[#5C5850]">/ day</span>
             </div>
             {nights > 1 && (
-              <p className="text-xs text-[#9C8B6E]">
+              <p className="text-xs text-[#7A6B54]">
                 {nights} nights = {formatTWD(total)} total
               </p>
             )}
@@ -99,10 +99,8 @@ export default function GearDetailClient({ item }: { item: GearItem }) {
           {/* Add to booking */}
           <button
             onClick={handleAdd}
-            className={`w-full flex items-center justify-center gap-2 px-6 py-4 text-sm tracking-wide transition-all ${
-              added
-                ? "bg-[#9C8B6E] text-[#F9F6F0]"
-                : "bg-[#1E1C18] text-[#F9F6F0] hover:bg-[#9C8B6E]"
+            className={`btn btn-lg btn-block ${
+              added ? "bg-[#9C8B6E] text-[#F9F6F0]" : "btn-primary"
             }`}
           >
             {added ? (

@@ -25,13 +25,10 @@ export default function BookingPaidPage() {
           押金已收到，我們將在24小時內與您確認預訂細節。
         </p>
         <div className="flex items-center justify-center gap-4">
-          <Link
-            href="/account"
-            className="px-5 py-2.5 bg-[#1E1C18] text-[#F9F6F0] text-sm hover:bg-[#9C8B6E] transition-colors"
-          >
+          <Link href="/account" className="btn btn-sm btn-primary">
             View my bookings
           </Link>
-          <Link href="/gear" className="text-sm text-[#9C8B6E] hover:text-[#1E1C18]">
+          <Link href="/gear" className="text-sm text-[#7A6B54] hover:text-[#1E1C18]">
             Keep browsing
           </Link>
         </div>

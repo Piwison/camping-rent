@@ -15,7 +15,7 @@ export default function SiteFooter() {
           <p className="text-xs text-[#5C5850] leading-relaxed max-w-xs">
             Premium camping gear rental for Taiwan's weekend escapists.
             <br />
-            <span className="text-[#9C8B6E]">台灣高品質露營裝備租賃服務</span>
+            <span className="text-[#7A6B54]">台灣高品質露營裝備租賃服務</span>
           </p>
         </div>
 
@@ -32,7 +32,7 @@ export default function SiteFooter() {
             <Link
               key={l.href}
               href={l.href}
-              className="text-sm text-[#1E1C18] hover:text-[#9C8B6E] transition-colors w-fit"
+              className="text-sm text-[#1E1C18] hover:text-[#7A6B54] transition-colors w-fit"
             >
               {l.label}
             </Link>
@@ -48,14 +48,14 @@ export default function SiteFooter() {
             <a
               href="#"
               aria-label="Instagram"
-              className="text-[#1E1C18] hover:text-[#9C8B6E] transition-colors"
+              className="text-[#1E1C18] hover:text-[#7A6B54] transition-colors"
             >
               <InstagramLogo size={20} />
             </a>
             <a
               href="#"
               aria-label="Facebook"
-              className="text-[#1E1C18] hover:text-[#9C8B6E] transition-colors"
+              className="text-[#1E1C18] hover:text-[#7A6B54] transition-colors"
             >
               <FacebookLogo size={20} />
             </a>

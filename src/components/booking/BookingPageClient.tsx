@@ -168,7 +168,7 @@ export default function BookingPageClient() {
           <p className="text-sm text-[#5C5850] mb-2">
             Thanks, {form.name}. We&apos;ll confirm your booking within 24 hours.
           </p>
-          <p className="text-xs text-[#9C8B6E]">預訂申請已送出，我們將在24小時內確認。</p>
+          <p className="text-xs text-[#7A6B54]">預訂申請已送出，我們將在24小時內確認。</p>
 
           {enquiryId && depositAmount > 0 && (
             <form
@@ -181,13 +181,10 @@ export default function BookingPageClient() {
                 Secure your weekend now with a {DEPOSIT_PERCENT}% deposit. The
                 balance is settled with us on pickup.
               </p>
-              <button
-                type="submit"
-                className="px-6 py-3 bg-[#1E1C18] text-[#F9F6F0] text-sm tracking-wide hover:bg-[#9C8B6E] transition-colors"
-              >
+              <button type="submit" className="btn btn-md btn-primary">
                 Pay {formatTWD(depositAmount)} deposit
               </button>
-              <p className="mt-3 text-xs text-[#9C8B6E]">
+              <p className="mt-3 text-xs text-[#7A6B54]">
                 Secured by ECPay 綠界. You can also just wait for our confirmation.
               </p>
             </form>
@@ -200,7 +197,7 @@ export default function BookingPageClient() {
   return (
     <div className="pt-24 pb-20 max-w-7xl mx-auto px-6 lg:px-10">
       <div className="mb-12">
-        <p className="text-xs tracking-[0.2em] uppercase text-[#9C8B6E] mb-2">
+        <p className="text-xs tracking-[0.2em] uppercase text-[#7A6B54] mb-2">
           預訂 · Booking
         </p>
         <h1 className="font-serif text-5xl tracking-tight text-[#1E1C18]">
@@ -252,11 +249,11 @@ export default function BookingPageClient() {
                 )}
               </label>
             </div>
-            <p className="text-xs text-[#9C8B6E] mt-2">
+            <p className="text-xs text-[#7A6B54] mt-2">
               {nights} night{nights !== 1 ? "s" : ""} · {nights} 晚
             </p>
             {showWeekendHint && (
-              <p className="text-xs text-[#9C8B6E] mt-1">
+              <p className="text-xs text-[#7A6B54] mt-1">
                 Bundles are priced per weekend (Fri–Sun) · 套裝以週末計價
               </p>
             )}
@@ -334,7 +331,7 @@ export default function BookingPageClient() {
               <button
                 type="submit"
                 disabled={items.length === 0 || submitting}
-                className="mt-2 px-6 py-4 bg-[#1E1C18] text-[#F9F6F0] text-sm tracking-wide hover:bg-[#9C8B6E] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                className="btn btn-lg btn-primary mt-2"
               >
                 {submitting ? "Sending… 送出中" : "Submit Enquiry 送出預訂"}
               </button>
@@ -349,7 +346,7 @@ export default function BookingPageClient() {
           </h2>
 
           {items.length === 0 ? (
-            <p className="text-sm text-[#9C8B6E] py-4 text-center">
+            <p className="text-sm text-[#7A6B54] py-4 text-center">
               No items yet — browse gear to add.
               <br />
               <span className="text-xs">尚未選擇裝備</span>
@@ -364,7 +361,7 @@ export default function BookingPageClient() {
                   >
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-[#1E1C18] truncate">{item.name}</p>
-                      <p className="text-xs text-[#9C8B6E]">
+                      <p className="text-xs text-[#7A6B54]">
                         {item.type === "bundle"
                           ? "Weekend bundle"
                           : `${formatTWD(item.price)} × ${nights} nights`}
@@ -398,7 +395,7 @@ export default function BookingPageClient() {
 
               <button
                 onClick={clearCart}
-                className="mt-4 text-xs text-[#9C8B6E] hover:text-[#1E1C18] transition-colors underline underline-offset-2"
+                className="mt-4 text-xs text-[#7A6B54] hover:text-[#1E1C18] transition-colors underline underline-offset-2"
               >
                 Clear all
               </button>

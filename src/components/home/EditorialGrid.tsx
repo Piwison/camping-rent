@@ -12,7 +12,7 @@ export default function EditorialGrid({ items }: { items: GearItem[] }) {
     <section className="py-24 px-6 lg:px-10 max-w-7xl mx-auto">
       <div className="flex items-end justify-between mb-14">
         <div>
-          <p className="text-xs tracking-[0.2em] uppercase text-[#9C8B6E] mb-2">
+          <p className="text-xs tracking-[0.2em] uppercase text-[#7A6B54] mb-2">
             精選裝備 · Featured Gear
           </p>
           <h2 className="font-serif text-4xl md:text-5xl tracking-tight text-[#1E1C18]">
@@ -23,7 +23,7 @@ export default function EditorialGrid({ items }: { items: GearItem[] }) {
         </div>
         <Link
           href="/gear"
-          className="hidden md:flex items-center gap-1 text-sm text-[#5C5850] hover:text-[#9C8B6E] transition-colors"
+          className="hidden md:flex items-center gap-1 text-sm text-[#5C5850] hover:text-[#7A6B54] transition-colors"
         >
           All gear <ArrowRight size={14} />
         </Link>
@@ -57,15 +57,15 @@ export default function EditorialGrid({ items }: { items: GearItem[] }) {
                   />
                   <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-[#1E1C18]/30 to-transparent" />
                 </div>
-                <p className="text-[10px] tracking-widest uppercase text-[#9C8B6E] mb-0.5">
+                <p className="text-[10px] tracking-widest uppercase text-[#7A6B54] mb-0.5">
                   {item.nameChinese}
                 </p>
-                <h3 className="text-sm font-medium text-[#1E1C18] group-hover:text-[#9C8B6E] transition-colors mb-1">
+                <h3 className="text-sm font-medium text-[#1E1C18] group-hover:text-[#7A6B54] transition-colors mb-1">
                   {item.name}
                 </h3>
                 <p className="text-xs text-[#5C5850]">
                   {formatTWD(item.dailyPrice)}
-                  <span className="ml-1 text-[#9C8B6E]">/ day</span>
+                  <span className="ml-1 text-[#7A6B54]">/ day</span>
                 </p>
               </Link>
             </motion.div>
@@ -74,10 +74,7 @@ export default function EditorialGrid({ items }: { items: GearItem[] }) {
       </div>
 
       <div className="mt-12 text-center md:hidden">
-        <Link
-          href="/gear"
-          className="inline-flex px-6 py-3 border border-[#DDD6C1] text-sm text-[#1E1C18] hover:border-[#9C8B6E] transition-colors"
-        >
+        <Link href="/gear" className="btn btn-md btn-secondary">
           View all gear 所有裝備
         </Link>
       </div>

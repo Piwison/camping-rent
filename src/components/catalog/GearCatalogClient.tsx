@@ -41,7 +41,7 @@ export default function GearCatalogClient({
     <div className="pt-24 pb-20 max-w-7xl mx-auto px-6 lg:px-10">
       {/* Page header */}
       <div className="mb-14">
-        <p className="text-xs tracking-[0.2em] uppercase text-[#9C8B6E] mb-2">
+        <p className="text-xs tracking-[0.2em] uppercase text-[#7A6B54] mb-2">
           所有裝備 · All Gear
         </p>
         <h1 className="font-serif text-5xl md:text-6xl tracking-tight text-[#1E1C18]">
@@ -53,7 +53,7 @@ export default function GearCatalogClient({
       <section className="mb-20" id="bundles">
         <div className="flex items-baseline gap-3 mb-8 border-b border-[#DDD6C1] pb-4">
           <h2 className="font-serif text-2xl text-[#1E1C18]">Curated Bundles</h2>
-          <span className="text-sm text-[#9C8B6E]">套裝組合</span>
+          <span className="text-sm text-[#7A6B54]">套裝組合</span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {bundles.map((bundle, i) => (
@@ -77,7 +77,7 @@ export default function GearCatalogClient({
                     {tierLabel[bundle.tier]}
                   </div>
                 </div>
-                <h3 className="font-serif text-xl text-[#1E1C18] group-hover:text-[#9C8B6E] transition-colors mb-1">
+                <h3 className="font-serif text-xl text-[#1E1C18] group-hover:text-[#7A6B54] transition-colors mb-1">
                   {bundle.name}
                 </h3>
                 <p className="text-xs text-[#5C5850] mb-3">{bundle.tagline}</p>
@@ -85,7 +85,7 @@ export default function GearCatalogClient({
                   <span className="font-semibold text-sm text-[#1E1C18]">
                     {formatTWD(bundle.bundlePrice)}
                   </span>
-                  <span className="text-xs text-[#9C8B6E] line-through">
+                  <span className="text-xs text-[#7A6B54] line-through">
                     {formatTWD(bundle.originalPrice)}
                   </span>
                   <span className="text-xs text-[#5C5850]">/ weekend</span>
@@ -100,7 +100,7 @@ export default function GearCatalogClient({
       <section>
         <div className="flex items-baseline gap-3 mb-8 border-b border-[#DDD6C1] pb-4">
           <h2 className="font-serif text-2xl text-[#1E1C18]">Individual Items</h2>
-          <span className="text-sm text-[#9C8B6E]">單品租借</span>
+          <span className="text-sm text-[#7A6B54]">單品租借</span>
         </div>
 
         {/* Category filter */}
@@ -139,15 +139,15 @@ export default function GearCatalogClient({
                     className="object-cover group-hover:scale-[1.04] transition-transform duration-500"
                   />
                 </div>
-                <p className="text-[10px] tracking-widest uppercase text-[#9C8B6E] mb-0.5">
+                <p className="text-[10px] tracking-widest uppercase text-[#7A6B54] mb-0.5">
                   {item.nameChinese}
                 </p>
-                <h3 className="text-sm font-medium text-[#1E1C18] group-hover:text-[#9C8B6E] transition-colors mb-1 leading-snug">
+                <h3 className="text-sm font-medium text-[#1E1C18] group-hover:text-[#7A6B54] transition-colors mb-1 leading-snug">
                   {item.name}
                 </h3>
                 <p className="text-xs text-[#5C5850]">
                   {formatTWD(item.dailyPrice)}
-                  <span className="text-[#9C8B6E] ml-1">/ day</span>
+                  <span className="text-[#7A6B54] ml-1">/ day</span>
                 </p>
               </Link>
             </motion.div>

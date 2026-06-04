@@ -88,7 +88,7 @@ export default function BundleDetailClient({
             <span className="text-[10px] tracking-widest uppercase bg-[#1E1C18] text-[#F9F6F0] px-2.5 py-1">
               {tierLabel[bundle.tier]}
             </span>
-            <span className="text-xs text-[#9C8B6E]">{bundle.nameChinese}</span>
+            <span className="text-xs text-[#7A6B54]">{bundle.nameChinese}</span>
           </div>
           <h1 className="font-serif text-4xl md:text-5xl tracking-tight text-[#1E1C18] mb-3">
             {bundle.name}
@@ -104,7 +104,7 @@ export default function BundleDetailClient({
               <span className="font-serif text-3xl text-[#1E1C18]">
                 {formatTWD(bundle.bundlePrice)}
               </span>
-              <span className="text-sm text-[#9C8B6E] line-through">
+              <span className="text-sm text-[#7A6B54] line-through">
                 {formatTWD(bundle.originalPrice)}
               </span>
             </div>
@@ -118,10 +118,8 @@ export default function BundleDetailClient({
 
           <button
             onClick={handleAdd}
-            className={`w-full flex items-center justify-center gap-2 px-6 py-4 text-sm tracking-wide transition-all mb-4 ${
-              added
-                ? "bg-[#9C8B6E] text-[#F9F6F0]"
-                : "bg-[#1E1C18] text-[#F9F6F0] hover:bg-[#9C8B6E]"
+            className={`btn btn-lg btn-block mb-4 ${
+              added ? "bg-[#9C8B6E] text-[#F9F6F0]" : "btn-primary"
             }`}
           >
             {added ? (
@@ -146,7 +144,7 @@ export default function BundleDetailClient({
                 <Link
                   key={item.id}
                   href={`/gear/${item.slug}`}
-                  className="group flex items-center gap-3 text-sm hover:text-[#9C8B6E] transition-colors"
+                  className="group flex items-center gap-3 text-sm hover:text-[#7A6B54] transition-colors"
                 >
                   <div className="relative w-10 h-10 overflow-hidden shrink-0">
                     <Image
@@ -158,10 +156,10 @@ export default function BundleDetailClient({
                     />
                   </div>
                   <div>
-                    <p className="text-[#1E1C18] group-hover:text-[#9C8B6E] transition-colors leading-snug">
+                    <p className="text-[#1E1C18] group-hover:text-[#7A6B54] transition-colors leading-snug">
                       {item.name}
                     </p>
-                    <p className="text-[10px] text-[#9C8B6E]">{item.nameChinese}</p>
+                    <p className="text-[10px] text-[#7A6B54]">{item.nameChinese}</p>
                   </div>
                 </Link>
               ))}

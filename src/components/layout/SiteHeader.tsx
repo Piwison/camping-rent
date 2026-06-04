@@ -29,7 +29,7 @@ export default function SiteHeader() {
   const solid = scrolled || menuOpen;
   const overHero = pathname === "/" && !solid;
   const primaryText = overHero ? "text-[#F9F6F0]" : "text-[#1E1C18]";
-  const accentText = overHero ? "text-[#D8C9AC]" : "text-[#9C8B6E]";
+  const accentText = overHero ? "text-[#D8C9AC]" : "text-[#7A6B54]";
 
   return (
     <header
@@ -58,7 +58,7 @@ export default function SiteHeader() {
               href={link.href}
               className="group flex flex-col items-center leading-none"
             >
-              <span className={`text-sm tracking-wide group-hover:text-[#9C8B6E] transition-colors ${primaryText}`}>
+              <span className={`text-sm tracking-wide group-hover:text-[#7A6B54] transition-colors ${primaryText}`}>
                 {link.label}
               </span>
               <span className={`text-[9px] opacity-0 group-hover:opacity-100 transition-opacity ${accentText}`}>
@@ -68,11 +68,7 @@ export default function SiteHeader() {
           ))}
           <Link
             href="/booking"
-            className={`px-4 py-2 text-sm tracking-wide transition-colors ${
-              overHero
-                ? "bg-white/10 backdrop-blur-sm border border-white/25 text-[#F9F6F0] hover:bg-white/20"
-                : "bg-[#1E1C18] text-[#F9F6F0] hover:bg-[#9C8B6E]"
-            }`}
+            className={`btn btn-xs ${overHero ? "btn-glass" : "btn-primary"}`}
           >
             Rent Now
           </Link>

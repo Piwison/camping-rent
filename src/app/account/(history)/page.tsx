@@ -45,10 +45,7 @@ export default async function BookingHistoryPage() {
       {bookings.length === 0 ? (
         <div className="border border-[#DDD6C1] bg-white px-6 py-10 text-center">
           <p className="text-sm text-[#5C5850]">No bookings yet.</p>
-          <Link
-            href="/gear"
-            className="inline-block mt-4 px-5 py-2.5 bg-[#1E1C18] text-[#F9F6F0] text-sm hover:bg-[#9C8B6E] transition-colors"
-          >
+          <Link href="/gear" className="btn btn-sm btn-primary mt-4">
             Browse the catalog
           </Link>
         </div>

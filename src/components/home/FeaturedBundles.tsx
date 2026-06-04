@@ -19,7 +19,7 @@ export default function FeaturedBundles({ bundles }: { bundles: GearBundle[] }) 
       {/* Section header */}
       <div className="flex items-end justify-between mb-14">
         <div>
-          <p className="text-xs tracking-[0.2em] uppercase text-[#9C8B6E] mb-2">
+          <p className="text-xs tracking-[0.2em] uppercase text-[#7A6B54] mb-2">
             套裝組合 · Curated Bundles
           </p>
           <h2 className="font-serif text-4xl md:text-5xl tracking-tight text-[#1E1C18]">
@@ -30,7 +30,7 @@ export default function FeaturedBundles({ bundles }: { bundles: GearBundle[] }) 
         </div>
         <Link
           href="/gear#bundles"
-          className="hidden md:flex items-center gap-1 text-sm text-[#5C5850] hover:text-[#9C8B6E] transition-colors"
+          className="hidden md:flex items-center gap-1 text-sm text-[#5C5850] hover:text-[#7A6B54] transition-colors"
         >
           All bundles <ArrowRight size={14} />
         </Link>
@@ -65,7 +65,7 @@ export default function FeaturedBundles({ bundles }: { bundles: GearBundle[] }) 
               </div>
 
               {/* Info */}
-              <p className="text-xs tracking-widest uppercase text-[#9C8B6E] mb-1">
+              <p className="text-xs tracking-widest uppercase text-[#7A6B54] mb-1">
                 {bundle.nameChinese}
               </p>
               <h3 className="font-serif text-2xl text-[#1E1C18] mb-2 group-hover:text-[#9C8B6E] transition-colors">
@@ -79,7 +79,7 @@ export default function FeaturedBundles({ bundles }: { bundles: GearBundle[] }) 
                 <span className="font-semibold text-[#1E1C18]">
                   {formatTWD(bundle.bundlePrice)}
                 </span>
-                <span className="text-xs text-[#9C8B6E] line-through">
+                <span className="text-xs text-[#7A6B54] line-through">
                   {formatTWD(bundle.originalPrice)}
                 </span>
                 <span className="text-xs text-[#5C5850]">/ weekend</span>

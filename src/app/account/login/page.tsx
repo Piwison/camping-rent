@@ -55,7 +55,7 @@ export default function CustomerLoginPage() {
   return (
     <div className="min-h-[100dvh] flex items-center justify-center px-6 bg-[#F9F6F0]">
       <div className="w-full max-w-sm">
-        <Link href="/" className="text-xs tracking-[0.2em] uppercase text-[#9C8B6E]">
+        <Link href="/" className="text-xs tracking-[0.2em] uppercase text-[#7A6B54]">
           Basecamp &amp; Co.
         </Link>
         <h1 className="font-[family-name:var(--font-playfair)] text-3xl text-[#1E1C18] mt-2 mb-1">
@@ -96,11 +96,7 @@ export default function CustomerLoginPage() {
           )}
           {notice && <p className="text-sm text-[#3E6B4F]">{notice}</p>}
 
-          <button
-            type="submit"
-            disabled={busy}
-            className="mt-2 px-6 py-3 bg-[#1E1C18] text-[#F9F6F0] text-sm tracking-wide hover:bg-[#9C8B6E] transition-colors disabled:opacity-40"
-          >
+          <button type="submit" disabled={busy} className="btn btn-md btn-primary mt-2">
             {busy
               ? "Please wait…"
               : mode === "signin"
@@ -115,7 +111,7 @@ export default function CustomerLoginPage() {
             setError(null);
             setNotice(null);
           }}
-          className="mt-6 text-sm text-[#9C8B6E] hover:text-[#1E1C18] transition-colors"
+          className="mt-6 text-sm text-[#7A6B54] hover:text-[#1E1C18] transition-colors"
         >
           {mode === "signin"
             ? "New here? Create an account"

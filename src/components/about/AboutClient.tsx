@@ -33,7 +33,7 @@ export default function AboutClient() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-xs tracking-[0.25em] uppercase text-[#9C8B6E] mb-4"
+            className="text-xs tracking-[0.25em] uppercase text-[#7A6B54] mb-4"
           >
             關於我們 · Our Story
           </motion.p>
@@ -80,7 +80,7 @@ export default function AboutClient() {
       {/* Values */}
       <div className="bg-[#EAE5D8] py-20 px-6 lg:px-10 mb-20">
         <div className="max-w-7xl mx-auto">
-          <p className="text-xs tracking-[0.2em] uppercase text-[#9C8B6E] mb-10">
+          <p className="text-xs tracking-[0.2em] uppercase text-[#7A6B54] mb-10">
             Our Values · 我們的理念
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -93,7 +93,7 @@ export default function AboutClient() {
                 transition={{ duration: 0.45, delay: i * 0.1 }}
               >
                 <h3 className="font-serif text-xl text-[#1E1C18] mb-1">{v.title}</h3>
-                <p className="text-xs text-[#9C8B6E] mb-3">{v.chinese}</p>
+                <p className="text-xs text-[#7A6B54] mb-3">{v.chinese}</p>
                 <p className="text-sm text-[#5C5850] leading-relaxed">{v.desc}</p>
               </motion.div>
             ))}
@@ -107,10 +107,7 @@ export default function AboutClient() {
           Ready for your first glamping trip?
         </h2>
         <p className="text-sm text-[#5C5850] mb-8">準備好你的第一次風格露營了嗎？</p>
-        <Link
-          href="/gear"
-          className="inline-flex items-center gap-2 px-8 py-4 bg-[#1E1C18] text-[#F9F6F0] text-sm tracking-wide hover:bg-[#9C8B6E] transition-colors"
-        >
+        <Link href="/gear" className="btn btn-lg btn-primary">
           Browse Gear <ArrowRight size={16} />
         </Link>
       </div>

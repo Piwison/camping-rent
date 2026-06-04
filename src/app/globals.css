@@ -31,6 +31,34 @@ html {
   font-family: var(--font-sans);
 }
 
+/* Button system — one source of truth for CTAs so padding/colour/hover stay
+   consistent across the storefront. Compose: `btn btn-md btn-primary`.
+   Hover lands on oak-dark (not oak) to keep ivory label text above AA. */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 text-sm tracking-wide transition-colors;
+  }
+  .btn:disabled {
+    @apply opacity-40 cursor-not-allowed;
+  }
+  .btn-xs { @apply px-4 py-2; }
+  .btn-sm { @apply px-5 py-2.5; }
+  .btn-md { @apply px-6 py-3; }
+  .btn-lg { @apply px-7 py-4; }
+  .btn-block { @apply w-full; }
+
+  .btn-primary {
+    @apply bg-charcoal text-ivory hover:bg-oak-dark;
+  }
+  .btn-secondary {
+    @apply border border-sand text-charcoal hover:border-oak-dark;
+  }
+  /* For dark photos/sections: frosted glass on a translucent white. */
+  .btn-glass {
+    @apply border border-white/30 bg-white/10 text-ivory backdrop-blur-md hover:border-white/50 hover:bg-white/20;
+  }
+}
+
 ::selection {
   background-color: var(--color-sand);
   color: var(--color-charcoal);
