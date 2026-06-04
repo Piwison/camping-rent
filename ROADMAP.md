@@ -105,7 +105,12 @@ Remove the manual offline loop.
 
 Deepen the brand and bring people back.
 
-- [ ] Reviews / user-generated content from real trips
+- [x] Reviews / user-generated content from real trips — any signed-in Customer
+      can rate (1–5) + note an Item, Bundle, or the overall experience;
+      auto-published. Per-gear reviews + average on the Catalog detail pages,
+      experience reviews as home testimonials, written from the account area.
+      Pure logic tested; Customer-gated `/api/reviews`; degrades to empty without
+      Supabase (ADR-0013).
 - [ ] Editorial lookbook & content (campsite guides, styling)
 - [ ] Loyalty / repeat-booking incentives
 - [ ] Bundle recommendations based on trip type / party size

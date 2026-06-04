@@ -4,10 +4,12 @@ import { getItemBySlug, getBundleBySlug, getBundleItems, allCatalogSlugs } from 
 import GearDetailClient from "@/components/gear-detail/GearDetailClient";
 import BundleDetailClient from "@/components/gear-detail/BundleDetailClient";
 import AvailabilityCalendar from "@/components/availability/AvailabilityCalendar";
+import ReviewSection from "@/components/reviews/ReviewSection";
 import {
   itemWeekendAvailability,
   bundleWeekendAvailability,
 } from "@/lib/weekend-availability";
+import { listReviewsForTarget, summaryForTarget } from "@/lib/review-store";
 import { pageMeta } from "@/lib/site";
 
 export async function generateStaticParams() {
@@ -44,25 +46,45 @@ export default async function GearDetailPage({
 
   const item = await getItemBySlug(slug);
   if (item) {
-    const slots = await itemWeekendAvailability(item.id);
+    const [slots, reviews, summary] = await Promise.all([
+      itemWeekendAvailability(item.id),
+      listReviewsForTarget("item", item.id),
+      summaryForTarget("item", item.id),
+    ]);
     return (
       <>
         <GearDetailClient item={item} />
         <AvailabilityCalendar slots={slots} />
+        <ReviewSection
+          targetType="item"
+          targetId={item.id}
+          targetName={item.name}
+          initialReviews={reviews}
+          initialSummary={summary}
+        />
       </>
     );
   }
 
   const bundle = await getBundleBySlug(slug);
   if (bundle) {
-    const [bundleItems, slots] = await Promise.all([
+    const [bundleItems, slots, reviews, summary] = await Promise.all([
       getBundleItems(bundle),
       bundleWeekendAvailability(bundle),
+      listReviewsForTarget("bundle", bundle.id),
+      summaryForTarget("bundle", bundle.id),
     ]);
     return (
       <>
         <BundleDetailClient bundle={bundle} items={bundleItems} />
         <AvailabilityCalendar slots={slots} label="sets" />
+        <ReviewSection
+          targetType="bundle"
+          targetId={bundle.id}
+          targetName={bundle.name}
+          initialReviews={reviews}
+          initialSummary={summary}
+        />
       </>
     );
   }

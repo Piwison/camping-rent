@@ -59,6 +59,10 @@ _Avoid_: admin, seller, merchant, supplier.
 A **Weekend Escapist**'s saved identity (email + password). Signing in links new **Bookings** to them so they can see their history; booking as a guest stays possible. Anyone signed in who is not the **Vendor** holds an Account.
 _Avoid_: login, profile, membership.
 
+**Review**:
+A signed-in **Account** holder's star rating (1–5) and optional note, attached to an **Item**, a **Bundle**, or the overall experience. Auto-published — no **Vendor** approval. Per-gear Reviews show on the Catalog detail pages; experience Reviews show as testimonials on the home page.
+_Avoid_: rating (alone), comment, feedback, testimonial (as the data type — that's just how experience Reviews are displayed).
+
 ### Availability
 
 **Stock**:

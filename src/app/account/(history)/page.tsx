@@ -3,6 +3,7 @@ import { requireCustomer } from "@/lib/customer-session";
 import { listEnquiriesForUser } from "@/lib/enquiry-store";
 import { formatEnquiryItems, type EnquiryStatus } from "@/lib/enquiry";
 import { formatTWD } from "@/lib/pricing";
+import ExperienceReviewForm from "@/components/reviews/ExperienceReviewForm";
 
 export const dynamic = "force-dynamic";
 
@@ -62,7 +63,7 @@ export default async function BookingHistoryPage() {
                 </span>
               </div>
               <p className="mt-2 text-sm text-[#5C5850]">{formatEnquiryItems(b.items)}</p>
-              <p className="mt-1 text-sm text-[#9C8B6E]">
+              <p className="mt-1 text-sm text-[#7A6B54]">
                 {b.nights} night{b.nights === 1 ? "" : "s"} · {formatTWD(b.total)}
                 {b.paymentStatus === "deposit_paid" && b.depositAmount
                   ? ` · ${formatTWD(b.depositAmount)} deposit paid`
@@ -72,6 +73,13 @@ export default async function BookingHistoryPage() {
           ))}
         </ul>
       )}
+
+      <div className="mt-12 pt-10 border-t border-[#DDD6C1]">
+        <h2 className="font-[family-name:var(--font-playfair)] text-2xl text-[#1E1C18] mb-4">
+          Tell us how it went
+        </h2>
+        <ExperienceReviewForm defaultName={customer.email.split("@")[0] || "Guest"} />
+      </div>
     </div>
   );
 }
