@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { ArrowRight } from "@phosphor-icons/react";
 import { formatTWD } from "@/lib/pricing";
 import type { GearItem } from "@/types/gear";
 
@@ -17,14 +18,14 @@ export default function EditorialGrid({ items }: { items: GearItem[] }) {
           <h2 className="font-serif text-4xl md:text-5xl tracking-tight text-[#1E1C18]">
             The essentials,
             <br />
-            <span className="italic">beautifully made.</span>
+            <span className="italic text-[#9C8B6E]">beautifully made.</span>
           </h2>
         </div>
         <Link
           href="/gear"
-          className="hidden md:inline-flex text-sm text-[#5C5850] hover:text-[#9C8B6E] transition-colors"
+          className="hidden md:flex items-center gap-1 text-sm text-[#5C5850] hover:text-[#9C8B6E] transition-colors"
         >
-          View all gear →
+          All gear <ArrowRight size={14} />
         </Link>
       </div>
 

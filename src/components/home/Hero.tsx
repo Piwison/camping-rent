@@ -61,7 +61,7 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-[100dvh] w-full items-center overflow-hidden"
+      className="relative flex min-h-[100dvh] w-full items-center overflow-hidden bg-[#1E1C18]"
     >
       {/* Background photo — full bleed, with overscan so parallax never reveals an edge */}
       <motion.div
@@ -83,9 +83,12 @@ export default function Hero() {
             className="object-cover"
           />
         </motion.div>
-        {/* Legibility wash: darker on the left where the text sits, soft vignette at the foot */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#1E1C18]/80 via-[#1E1C18]/45 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#1E1C18]/60 via-transparent to-transparent" />
+        {/* Cinematic legibility wash, layered so the darkest corner sits bottom-left
+            under the headline + scroll cue while the rest of the photo breathes.
+            Tuned to keep the text comfortably above AA contrast. */}
+        <div className="absolute inset-0 bg-[#1E1C18]/25" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#1E1C18]/90 via-[#1E1C18]/35 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1E1C18]/70 via-transparent to-transparent" />
       </motion.div>
 
       {/* Content */}
@@ -126,7 +129,7 @@ export default function Hero() {
           >
             <Link
               href="/gear"
-              className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[#F9F6F0] text-[#1E1C18] text-sm tracking-wide hover:bg-[#DDD6C1] transition-colors rounded-[var(--radius-btn)]"
+              className="group inline-flex items-center justify-center gap-2 px-7 py-4 bg-[#F9F6F0] text-[#1E1C18] text-sm font-medium tracking-wide shadow-xl shadow-black/20 hover:bg-white transition-colors"
             >
               Browse Gear
               <ArrowRight
@@ -136,7 +139,7 @@ export default function Hero() {
             </Link>
             <Link
               href="/gear#bundles"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-white/10 backdrop-blur-sm border border-white/25 text-[#F9F6F0] text-sm tracking-wide hover:bg-white/20 transition-colors rounded-[var(--radius-btn)]"
+              className="inline-flex items-center justify-center gap-2 px-7 py-4 bg-white/10 backdrop-blur-md border border-white/30 text-[#F9F6F0] text-sm tracking-wide hover:bg-white/20 hover:border-white/50 transition-colors"
             >
               View Bundles
               <span className="text-[#D8C9AC] text-xs">套裝組合</span>
@@ -156,6 +159,19 @@ export default function Hero() {
             ))}
           </motion.div>
         </div>
+      </motion.div>
+
+      {/* Editorial meta chip — quiet brand detail, desktop only */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 1.1 }}
+        className="hidden lg:flex absolute bottom-8 right-8 z-10 items-center gap-3 px-4 py-2.5 bg-white/10 backdrop-blur-md border border-white/15"
+      >
+        <span className="text-[10px] tracking-[0.2em] uppercase text-[#F9F6F0]/80">
+          週末出走 · Weekend Escape
+        </span>
+        <span className="text-[10px] text-[#D8C9AC]">24.1°N 121.6°E</span>
       </motion.div>
 
       {/* Scroll cue — fades out as the hero scrolls away */}
